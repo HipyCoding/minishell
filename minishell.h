@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:50:07 by christian         #+#    #+#             */
-/*   Updated: 2024/10/24 19:16:00 by christian        ###   ########.fr       */
+/*   Updated: 2024/10/25 20:47:10 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 
 # include <stdio.h>
-//# include "../lib/libft.h"
+# include "/includes/libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>

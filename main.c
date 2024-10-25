@@ -3,57 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/10/24 19:40:32 by christian        ###   ########.fr       */
+/*   Updated: 2024/10/25 18:33:00 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//     void	*ft_calloc(size_t count, size_t size)
+// void	handle_sig(int signal)
 // {
-// 	size_t	total;
-// 	void	*ptr;
-
-// 	total = count * size;
-// 	ptr = malloc(total);
-// 	if (!ptr)
-//         return(NULL);
-//     while (total > 0)
-// 	{
-// 		*ptr = 0;
-// 		ptr++;
-// 		total--;
-// 	}
-//     return (ptr);
+// 	printf("'\n");				
+// 	rl_on_new_line();			//inform readline about Ctrl-C
+// 	rl_replace_line("", 0);		//clear current unput
+// 	rl_redisplay();				//redisplay prompt
 // }
 
-// void handle_sigint(int sig) 
-// {
-//     printf("\n");
-//     rl_on_new_line();  // Inform readline that the user pressed Ctrl-C
-//     rl_redisplay();  // Redisplay the prompt
-// }
-
-int main() 
+int main()
 {
-    // Set up the signal handler for Ctrl-C
-   // signal(SIGINT, handle_sigint);
+	char *input;
 
-    char *input;
-    while (1) {
-        input = readline("mini_shell > ");
-        if (*input) {
-            add_history(input);
-        }
-
-        printf("You entered: %s\n", input);
-
-        free(input);
-    }
-
-    clear_history();
-    return 0;
+	// signal(SIGINT, handle_sig);
+	while(1)
+	{
+		input = readline("minishell > ");
+		printf("input: %s\n", input);
+		free(input);
+	}
+	return 0;
 }
