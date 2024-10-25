@@ -6,44 +6,33 @@
 #    By: christian <christian@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/09/21 15:49:53 by christian        ###   ########.fr        #
+#    Updated: 2024/10/25 07:19:49 by christian        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
-CC = cc
-CFLAGS = -Wall -Wextra -Werror #-g3
-INCLUDE = -L $(LIBFT_PATH) -lft
+NAME		:= minishell
+CFLAGS		:= -Wall -Wextra -Werror -g3 #-fsanitize=address
 
-LIBFT_PATH = ./lib
-LIBFT = $(LIBFT_PATH)/libft.a
+SRCS	:= main.c parsing/parse_utils.c
 
-SRCS = \
-	src/main.C
-	
-
-OBJS = $(SRCS:%.c=$(BINDIR)/%.o)
+OBJS	:= ${SRCS:.c=.o}
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(LIBFT) -o $(NAME) $(OBJS) $(INCLUDE) $(RL_FLAGS)
-	echo $(GREEN)"Building $(NAME)"$(DEFAULT);
+$(NAME): $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline
 
-$(LIBFT):
-	make -C $(LIBFT_PATH)
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@ && printf "\nCompiling: $(notdir $<)"
 
-	clean:
-	make clean -C $(LIBFT_PATH)
-	rm -rf $(BINDIR)
-	echo $(RED)"Removing $(NAME) object files"$(DEFAULT);
+clean:
+	@echo "cleaning..."
+	@rm -rf $(OBJS) $(BONUS_OBJ)
 
 fclean: clean
-	rm -f $(NAME)
-	make fclean -C $(LIBFT_PATH)
-	echo $(RED)"Removing $(NAME)"$(DEFAULT);
+	@echo "full clean..."
+	@rm -rf $(NAME) $(BONUS_NAME)
 
-re: fclean all
-	echo $(GREEN)"Rebuilding everything"$(DEFAULT);
+re: fclean all bonus
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

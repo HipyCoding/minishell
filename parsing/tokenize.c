@@ -1,24 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/09/21 16:40:27 by christian        ###   ########.fr       */
+/*   Created: 2024/10/25 07:20:23 by christian         #+#    #+#             */
+/*   Updated: 2024/10/25 07:21:47 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void    init_shell
+char    **parse_input(const char *input)
 {
-    
-}
-
-int main()
-{
-    t_shell     shell;
     
 }
