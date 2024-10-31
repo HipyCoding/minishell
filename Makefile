@@ -6,7 +6,7 @@
 #    By: candrese <candrese@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/10/25 18:39:50 by candrese         ###   ########.fr        #
+#    Updated: 2024/10/31 05:04:35 by candrese         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,12 @@ LIBFT_PATH = ./includes/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 SRCS	:= main.c \
-	parsing/parse_utils.c\
-	parsing/tokenize.c
+	parsing/tokenize.c \
+	parsing/parse_utils_boolean.c \
+	parsing/parse_utils.c \
+	parsing/parse.c \
+	parsing/cleanup.c \
+	parsing/init_lexer.c
 
 OBJS	:= $(SRCS:%.c=bin/%.o)
 
