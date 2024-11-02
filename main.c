@@ -6,11 +6,13 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/10/31 05:23:08 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/02 08:53:16 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 // void	handle_sig(int signal)
 // {
@@ -62,6 +64,7 @@ int main(int argc, char **argv)
 	t_ast_node *ast = parse(tokens);
 	if (ast)
 		print_ast(ast, 0);
+	// syntaxcheck
 		
 	cleanup_tokens(tokens);
 	if (ast)

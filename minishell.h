@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/10/31 02:22:51 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/02 08:49:55 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_ast_node		*parse(t_token *tokens);
 void			print_ast(t_ast_node *node, int depth);
 void			free_ast(t_ast_node *node);
 void			free_tokens(t_token *head);
+char 			*extract_env_var_name(const char *input, int *i);
 
 bool is_special_char(char c);
 bool is_whitespace(char c);
