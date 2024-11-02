@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 05:02:23 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/02 08:33:46 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/02 08:37:36 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,24 @@ t_token *init_new_token(const char *input, int *i, t_token *prev_token)
 {
 	t_token *new_token;
 	char *token_data;
+	ast_type token_type;
 
-	token_data = extract_token_data(input, i);
-	if (!token_data)
-		return NULL;
-
-	new_token = create_token(get_token_type(token_data, prev_token), token_data);
+	if (input[*i] == '$')
+	{
+		token_data = extract_env_var_name(input, i);
+		if (!token_data)
+			return NULL;
+		// Determine if this env var should be a command or argument
+		token_type = get_token_type(token_data, prev_token);
+		new_token = create_token(token_type, token_data);
+	}
+	else
+	{
+		token_data = extract_token_data(input, i);
+		if (!token_data)
+			return NULL;
+		new_token = create_token(get_token_type(token_data, prev_token), token_data);
+	}
 	if (!new_token)
 	{
 		free(token_data);
