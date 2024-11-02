@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 00:51:30 by candrese          #+#    #+#             */
-/*   Updated: 2024/10/31 06:24:56 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/02 08:38:51 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,44 +63,39 @@ char *handle_word(const char *input, int *i)
 	data = ft_substr(input, start, len);
 	if (!data)
 		return NULL;
-		
 	*i += len - 1;
 	return data;
 }
 
-// Modify get_token_type to better handle command arguments
-ast_type get_token_type(const char *data, const t_token *prev_token)
+char *extract_env_var_name(const char *input, int *i)
 {
-	ast_type basic_type;
+	int start;
+	int len;
+	char *var_name;
+	char *result;
 
-	basic_type = get_basic_token_type(data[0]);
-		
-	// If it's already a special token, return that type
-	if (basic_type != NODE_WORD)
-		return basic_type;
-	// If no previous token, or previous token was a pipe or redirection,
-	// this word is a command
-	if (!prev_token || prev_token->type == NODE_PIPE || 
-		prev_token->type == NODE_REDIR)
-		return NODE_CMD;
-		
-	// If previous token was a command or argument, this is an argument
-	if (prev_token->type == NODE_CMD || prev_token->type == NODE_ARG)
-		return NODE_ARG;
-		
-	return NODE_WORD;
-}
-
-ast_type get_basic_token_type(char first_char)
-{
-	if (first_char == '|')
-		return NODE_PIPE;
-	else if (first_char == '>' || first_char == '<')
-		return NODE_REDIR;
-	else if (first_char == '$')
-		return NODE_ENV;
-	else if (first_char == '"' || first_char == '\'')
-		return NODE_QUOTE;
-	else
-		return NODE_WORD;
+	start = *i + 1;
+	// Check if there's no variable name after $
+	if (!input[start] || is_whitespace(input[start]) || 
+		is_special_char(input[start]) || is_quote(input[start]))
+		return ft_strdup("$");
+	len = 0;
+	while (input[start + len] && !is_whitespace(input[start + len]) && 
+		!is_special_char(input[start + len]) && !is_quote(input[start + len]))
+		len++;
+	var_name = ft_substr(input, start, len);
+	if (!var_name)
+		return NULL;
+	// Create new string with $ prefix
+	result = ft_calloc(len + 2, sizeof(char));
+	if (!result)
+	{
+		free(var_name);
+		return NULL;
+	}
+	result[0] = '$';
+	ft_strlcpy(result + 1, var_name, len + 1);
+	free(var_name);
+	*i += len;
+	return result;
 }
