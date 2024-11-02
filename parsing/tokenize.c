@@ -73,6 +73,18 @@ void add_token(t_token **head, t_token *new_token)
 	current->next = new_token;
 }
 
+void print_tokens(t_token *head)
+{
+	t_token *current = head;
+	printf("Tokens:\n");
+	while (current)
+	{
+		printf("Type: %d, Data: '%s'\n", current->type, current->data);
+		current = current->next;
+	}
+	printf("\n");
+}
+
 // for Debug/Print
 void print_ast(t_ast_node *node, int depth)
 {
