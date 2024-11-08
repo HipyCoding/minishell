@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/02 08:49:55 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/05 12:41:49 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,16 @@ typedef struct s_token
 	struct s_token *next;
 } t_token;
 
+// Struct for error handling within the syntax checks
+typedef enum {
+	SYNTAX_OK = 0,
+	ERR_EMPTY_PIPE,
+	ERR_INVALID_REDIR,
+	ERR_CMD_NOT_FOUND,
+	ERR_CONSECUTIVE_PIPE,
+	ERR_MISSING_REDIR_FILE
+} syntax_error_t;
+
 // lexing
 t_ast_node		*create_ast_node(ast_type type, char *data);
 t_token			*create_token(ast_type type, char *data);
@@ -75,15 +85,23 @@ t_ast_node		*parse_command(t_token **tokens);
 t_ast_node		*parse_redirection(t_token **tokens);
 t_ast_node		*parse_command_with_redirections(t_token **tokens);
 t_ast_node		*parse_pipeline(t_token **tokens);
-t_ast_node		*parse(t_token *tokens);
+t_ast_node		*parse(t_token *tokens, t_ast_node *ast);
 void			print_ast(t_ast_node *node, int depth);
 void			free_ast(t_ast_node *node);
 void			free_tokens(t_token *head);
 char 			*extract_env_var_name(const char *input, int *i);
 
+// lexing utils
 bool is_special_char(char c);
 bool is_whitespace(char c);
 bool is_quote(char c);
 bool skip_whitespace(const char *input, int *i);
+
+// syntax checks
+bool				is_valid_command(const char *cmd);
+syntax_error_t		check_command_syntax(t_ast_node *cmd_node);
+syntax_error_t		check_redirection_syntax(t_ast_node *redir_node);
+syntax_error_t		check_syntax(t_ast_node *node);
+void				display_syntax_error(syntax_error_t error);
 
 #endif

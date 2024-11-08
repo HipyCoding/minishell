@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/11/02 08:53:16 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/05 13:39:34 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,21 @@
 
 int main(int argc, char **argv)
 {
+	t_ast_node *ast;
+	t_token *tokens;
+
 	if (argc < 2)
 		return 1;
-
+	ast = NULL;
+	tokens = NULL;
 	printf("\ninput: %s\n", argv[1]);
-
-	t_token *tokens = lexer(argv[1]);
+	tokens = lexer(argv[1]);
 	if (!tokens)
 		return 1;
-		
-	t_ast_node *ast = parse(tokens);
-	if (ast)
-		print_ast(ast, 0);
-	// syntaxcheck
-		
+	ast = parse(tokens, ast);
+
+
+
 	cleanup_tokens(tokens);
 	if (ast)
 		free_ast(ast);

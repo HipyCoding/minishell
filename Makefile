@@ -6,12 +6,12 @@
 #    By: candrese <candrese@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/10/31 05:04:35 by candrese         ###   ########.fr        #
+#    Updated: 2024/11/05 13:33:42 by candrese         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:= minishell
-CFLAGS		:= -Wall -Wextra -Werror #-g3 #-fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror -g3 #-fsanitize=address
 CC			:= cc
 
 #		 thank you jorge <3
@@ -25,7 +25,8 @@ SRCS	:= main.c \
 	parsing/parse_utils.c \
 	parsing/parse.c \
 	parsing/cleanup.c \
-	parsing/init_lexer.c
+	parsing/init_lexer.c \
+	parsing/syntax_check.c 
 
 OBJS	:= $(SRCS:%.c=bin/%.o)
 

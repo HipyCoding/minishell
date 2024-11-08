@@ -1,0 +1,25 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+	  {
+		"name": "Debug",
+		"type": "cppdbg",
+		"request": "launch",
+		"program": "${workspaceFolder}/minishell",
+		"args": ["ls -l | cat | grep -c ab.txt"],
+		"stopAtEntry": true,
+		"cwd": "/Users/candrese/Documents/projects/minishell",
+		"environment": [],
+		"externalConsole": false,
+		"MIMode": "lldb",
+		"setupCommands": [
+		  {
+			"description": "Enable pretty-printing for gdb",
+			"text": "-enable-pretty-printing",
+			"ignoreFailures": true
+		  }
+		],
+		"preLaunchTask": "build"
+	  }
+	]
+  }
