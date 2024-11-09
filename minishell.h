@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/09 17:05:38 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/09 23:24:59 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+// Status codes for command execution
+typedef enum 
+{
+	CMD_SUCCESS = 0,
+	CMD_ERROR = 1,
+}		cmd_status;
 
 typedef enum
 {
@@ -105,5 +112,9 @@ syntax_error_t		check_command_syntax(t_ast_node *cmd_node);
 syntax_error_t		check_redirection_syntax(t_ast_node *redir_node);
 syntax_error_t		check_syntax(t_ast_node *node);
 void				display_syntax_error(syntax_error_t error);
+
+cmd_status			ft_echo(t_ast_node *cmd_node);
+
+cmd_status execute_ast(t_ast_node *node);
 
 #endif

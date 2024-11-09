@@ -6,7 +6,7 @@
 #    By: candrese <candrese@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/11/05 13:33:42 by candrese         ###   ########.fr        #
+#    Updated: 2024/11/09 23:24:07 by candrese         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ SRCS	:= main.c \
 	parsing/parse.c \
 	parsing/cleanup.c \
 	parsing/init_lexer.c \
-	parsing/syntax_check.c 
+	parsing/syntax_check.c  \
+	execution/execute.c \
+	execution/buildins/echo.c
 
 OBJS	:= $(SRCS:%.c=bin/%.o)
 
