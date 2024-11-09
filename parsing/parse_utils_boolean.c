@@ -1,19 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   parse_utils_boolean.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 07:14:15 by christian         #+#    #+#             */
-/*   Updated: 2024/10/31 00:47:42 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:42:04 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-// Utility functions remain the same as before
 bool is_special_char(char c)
 {
 	return (c == '|' || c == '<' || c == '>' || c == '$');

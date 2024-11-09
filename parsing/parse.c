@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/05 12:58:24 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/09 23:50:00 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ t_ast_node *parse_pipeline(t_token **tokens)
 t_ast_node *parse(t_token *tokens, t_ast_node *ast)
 {
 	syntax_error_t	error;
+	cmd_status status;
 
 	ast = parse_pipeline (&tokens);
 	error = check_syntax (ast);
@@ -149,5 +150,8 @@ t_ast_node *parse(t_token *tokens, t_ast_node *ast)
 		cleanup_tokens(tokens);
 		free_ast(ast);
 	}
+	printf("parse finish\n");
+	status = execute_ast(ast);
+	printf("execution finish\n");
 	return parse_pipeline(&tokens);
 }
