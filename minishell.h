@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/05 12:41:49 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:05:38 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,15 @@ typedef struct s_token
 } t_token;
 
 // Struct for error handling within the syntax checks
-typedef enum {
+typedef enum 
+{
 	SYNTAX_OK = 0,
 	ERR_EMPTY_PIPE,
 	ERR_INVALID_REDIR,
 	ERR_CMD_NOT_FOUND,
 	ERR_CONSECUTIVE_PIPE,
 	ERR_MISSING_REDIR_FILE
-} syntax_error_t;
+} 		syntax_error_t;
 
 // lexing
 t_ast_node		*create_ast_node(ast_type type, char *data);
@@ -89,7 +90,8 @@ t_ast_node		*parse(t_token *tokens, t_ast_node *ast);
 void			print_ast(t_ast_node *node, int depth);
 void			free_ast(t_ast_node *node);
 void			free_tokens(t_token *head);
-char 			*extract_env_var_name(const char *input, int *i);
+char			*extract_env_var_name(const char *input, int *i);
+char			*handle_quoted_string(const char *input, int *i);
 
 // lexing utils
 bool is_special_char(char c);

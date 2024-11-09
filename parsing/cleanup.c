@@ -6,13 +6,12 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 04:56:02 by candrese          #+#    #+#             */
-/*   Updated: 2024/10/31 05:05:00 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:41:45 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../minishell.h"
 
-// Token list cleanup helper
 void cleanup_tokens(t_token *head)
 {
 	t_token *temp;

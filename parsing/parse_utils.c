@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 00:51:30 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/02 08:38:51 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:04:38 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,41 @@ char *handle_word(const char *input, int *i)
 	if (!data)
 		return NULL;
 	*i += len - 1;
+	return data;
+}
+
+char *handle_quoted_string(const char *input, int *i)
+{
+	char quote_char;
+	int start;
+	int len;
+	char *data;
+
+	quote_char = input[*i];		//For know if it's ' or "
+	start = *i + 1;
+	len = 0;
+	// find closing quote
+	while (input[start + len] && input[start + len] != quote_char)
+		len++;
+	// if no closing quote, just include the opening quote
+	if (!input[start + len])
+	{
+		data = ft_calloc(2, sizeof(char));
+		if (!data)
+			return NULL;
+		data[0] = quote_char;
+		data[1] = '\0';
+		return data;
+	}
+	// put quotes into the token
+	data = ft_calloc(sizeof(char), len + 3);
+	if (!data)
+		return NULL;
+	data[0] = quote_char;
+	ft_strlcpy(data + 1, input + start, len + 1);
+	data[len + 1] = quote_char;
+	data[len + 2] = '\0';
+	*i += len + 1;
 	return data;
 }
 

@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 05:02:23 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/02 08:37:36 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:02:58 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_ast_node *create_ast_node(ast_type type, char *data)
 	return (node);
 }
 
-// Keep the original create_token function
 t_token *create_token(ast_type type, char *data)
 {
 	t_token *new_token;
@@ -39,7 +38,7 @@ t_token *create_token(ast_type type, char *data)
 	return (new_token);
 }
 
-// Extract token data with type handling
+// Extract token data
 char *extract_token_data(const char *input, int *i)
 {
 	if (is_special_char(input[*i]))
@@ -61,6 +60,17 @@ t_token *init_new_token(const char *input, int *i, t_token *prev_token)
 			return NULL;
 		// Determine if this env var should be a command or argument
 		token_type = get_token_type(token_data, prev_token);
+		new_token = create_token(token_type, token_data);
+	}
+	else if (is_quote(input[*i]))
+	{
+		token_data = handle_quoted_string(input, i);
+		if (!token_data)
+			return NULL;
+		token_type = get_token_type(token_data, prev_token);
+		// after a command it should be parsed as argument
+		if (prev_token && prev_token->type == NODE_CMD)
+			token_type = NODE_ARG;
 		new_token = create_token(token_type, token_data);
 	}
 	else
