@@ -26,7 +26,7 @@ SRCS	:= main.c \
 	parsing/parse.c \
 	parsing/cleanup.c \
 	parsing/init_lexer.c \
-	parsing/syntax_check.c  \
+	parsing/syntax_check.c \
 	execution/execute.c \
 	execution/buildins/echo.c
 
@@ -35,7 +35,7 @@ OBJS	:= $(SRCS:%.c=bin/%.o)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(CFLAGS) -lreadline $(LIBFT) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 	@echo "building $(NAME)"
 
 $(LIBFT):

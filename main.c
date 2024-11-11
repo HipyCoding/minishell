@@ -54,19 +54,18 @@ int main(int argc, char **argv)
 {
 	t_ast_node *ast;
 	t_token *tokens;
+	cmd_status *status;
 
 	if (argc < 2)
 		return 1;
+	status = 0;
 	ast = NULL;
 	tokens = NULL;
 	printf("\ninput: %s\n", argv[1]);
 	tokens = lexer(argv[1]);
 	if (!tokens)
 		return 1;
-	ast = parse(tokens, ast);
-
-
-
+	ast = parse(tokens, ast, status);
 	cleanup_tokens(tokens);
 	if (ast)
 		free_ast(ast);

@@ -93,7 +93,7 @@ t_ast_node		*parse_command(t_token **tokens);
 t_ast_node		*parse_redirection(t_token **tokens);
 t_ast_node		*parse_command_with_redirections(t_token **tokens);
 t_ast_node		*parse_pipeline(t_token **tokens);
-t_ast_node		*parse(t_token *tokens, t_ast_node *ast);
+t_ast_node		*parse(t_token *tokens, t_ast_node *ast, cmd_status *status);
 void			print_ast(t_ast_node *node, int depth);
 void			free_ast(t_ast_node *node);
 void			free_tokens(t_token *head);

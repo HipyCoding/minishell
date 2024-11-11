@@ -26,10 +26,13 @@ cmd_status ft_echo(t_ast_node *cmd_node)
 	}
 	while (arg)
 	{
+		// if argument is quoted (starts with ' or "), print without the quotes
 		if (arg->data[0] == '"' || arg->data[0] == '\'')
 			write(STDOUT_FILENO, arg->data + 1, ft_strlen(arg->data) - 2);
+		// Print the raw argument
 		else
 			write(STDOUT_FILENO, arg->data, ft_strlen(arg->data));
+		// If another argument coming up, print a space between arguments
 		if (arg->next)
 			write(STDOUT_FILENO, " ", 1);
 		arg = arg->next;

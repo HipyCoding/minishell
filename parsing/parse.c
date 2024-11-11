@@ -136,10 +136,9 @@ t_ast_node *parse_pipeline(t_token **tokens)
 }
 
 // can add more parsing modules here
-t_ast_node *parse(t_token *tokens, t_ast_node *ast)
+t_ast_node *parse(t_token *tokens, t_ast_node *ast, cmd_status *status)
 {
 	syntax_error_t	error;
-	cmd_status status;
 
 	ast = parse_pipeline (&tokens);
 	error = check_syntax (ast);
@@ -149,9 +148,14 @@ t_ast_node *parse(t_token *tokens, t_ast_node *ast)
 		display_syntax_error (error);
 		cleanup_tokens(tokens);
 		free_ast(ast);
+		*status = CMD_ERROR;
+		return NULL;
 	}
-	printf("parse finish\n");
-	status = execute_ast(ast);
-	printf("execution finish\n");
-	return parse_pipeline(&tokens);
+	// 	cleanup_tokens(tokens);
+	// if (ast)
+	// 	free_ast(ast);
+	// printf("parse finish\n");
+	// *status = execute_ast(ast);
+	// printf("execution finish\n");
+	return ast;
 }

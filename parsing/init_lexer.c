@@ -16,6 +16,7 @@
 t_ast_node *create_ast_node(ast_type type, char *data)
 {
 	t_ast_node *node;
+	static int node_count = 0;
 
 	node = ft_calloc(sizeof(t_ast_node), 1);
 	if (!node)
