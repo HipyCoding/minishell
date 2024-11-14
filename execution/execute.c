@@ -6,12 +6,11 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/14 01:39:34 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/14 02:18:44 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 // this funcion is to chanfe the commad arg AST into char**
 
 char **get_command_arguments(t_ast_node *cmd_node)
