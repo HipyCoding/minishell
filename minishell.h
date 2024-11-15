@@ -113,7 +113,11 @@ syntax_error_t		check_redirection_syntax(t_ast_node *redir_node);
 syntax_error_t		check_syntax(t_ast_node *node);
 void				display_syntax_error(syntax_error_t error);
 
-cmd_status			ft_echo(t_ast_node *cmd_node);
+// builtin functions
+cmd_status	ft_echo(t_ast_node *cmd_node);
+cmd_status	ft_cd(t_ast_node *cmd_node);
+cmd_status	ft_exit();
+cmd_status	ft_pwd();
 
 cmd_status execute_ast(t_ast_node *node);
 

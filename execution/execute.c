@@ -82,7 +82,6 @@ cmd_status execute_external(t_ast_node *cmd_node)
 	}
 }
 
-
 cmd_status	execute_builtin(t_ast_node *cmd_node)
 {
 	if (ft_strncmp(cmd_node->data, "echo", 5) == 0)
@@ -94,13 +93,13 @@ cmd_status	execute_builtin(t_ast_node *cmd_node)
 	else if (ft_strncmp(cmd_node->data, "cd", 3) == 0)
 	{
 		printf("execute cd buildin here\n");
-		return CMD_SUCCESS;
+		return (ft_cd(cmd_node));
 	}
 		//return (ft_cd(cmd_node));
 	else if (ft_strncmp(cmd_node->data, "pwd", 4) == 0)
 	{
 		printf("execute pwd buildin here\n");
-		return CMD_SUCCESS;
+		return (ft_pwd());
 	}
 		//return (ft_pwd());
 	else if (ft_strncmp(cmd_node->data, "export", 7) == 0)
@@ -124,7 +123,7 @@ cmd_status	execute_builtin(t_ast_node *cmd_node)
 	else if (ft_strncmp(cmd_node->data, "exit", 5) == 0)
 	{
 		printf("execute exit buildin here\n");
-		return CMD_SUCCESS;
+		return (ft_exit());
 	}
 		//return (ft_exit());
 	printf("CMD ERROR in execute_builtin\n");
