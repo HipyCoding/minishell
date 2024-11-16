@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 04:56:02 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/08 14:41:45 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/16 10:23:15 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void cleanup_tokens(t_token *head)
 
 void free_ast (t_ast_node *node)
 {
-	static int freed_count = 0;
+	// static int freed_count = 0;
 	if (!node)
 		return;
 	// Free all children first
@@ -58,7 +58,7 @@ void free_ast (t_ast_node *node)
 // 	free_ast(node->args);
 // 	free_ast(node->left);
 // 	free_ast(node->right);
-		
+
 // 	free(node->data);
 // 	free(node);
 // }

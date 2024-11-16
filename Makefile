@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: candrese <candrese@student.42.fr>          +#+  +:+       +#+         #
+#    By: stalash <stalash@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/11/09 23:24:07 by candrese         ###   ########.fr        #
+#    Updated: 2024/11/16 10:25:09 by stalash          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,10 @@ SRCS	:= main.c \
 	parsing/init_lexer.c \
 	parsing/syntax_check.c \
 	execution/execute.c \
-	execution/buildins/echo.c
+	execution/buildins/echo.c \
+	execution/buildins/cd.c \
+	execution/buildins/exit.c \
+	execution/buildins/pwd.c \
 
 OBJS	:= $(SRCS:%.c=bin/%.o)
 

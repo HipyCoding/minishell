@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 05:02:23 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/09 17:02:58 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/16 10:23:36 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 t_ast_node *create_ast_node(ast_type type, char *data)
 {
 	t_ast_node *node;
-	static int node_count = 0;
+	// static int node_count = 0;
 
 	node = ft_calloc(sizeof(t_ast_node), 1);
 	if (!node)
