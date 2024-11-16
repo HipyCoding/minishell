@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/11/14 01:32:37 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/16 19:53:10 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 // void	handle_sig(int signal)
 // {
-// 	printf("'\n");				
+// 	printf("'\n");
 // 	rl_on_new_line();			//inform readline about Ctrl-C
 // 	rl_replace_line("", 0);		//clear current unput
 // 	rl_redisplay();				//redisplay prompt
@@ -40,6 +40,7 @@ int main()
 	// signal(SIGINT, handle_sig);
 	while(1)
 	{
+		setup_signal_handlers();
 		input = readline("minishell > ");
 		if (!input)
 			break;

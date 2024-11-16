@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/09 23:24:59 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/16 19:52:25 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <unistd.h>
 
 // Status codes for command execution
-typedef enum 
+typedef enum
 {
 	CMD_SUCCESS = 0,
 	CMD_ERROR = 1,
@@ -66,7 +66,7 @@ typedef struct s_token
 } t_token;
 
 // Struct for error handling within the syntax checks
-typedef enum 
+typedef enum
 {
 	SYNTAX_OK = 0,
 	ERR_EMPTY_PIPE,
@@ -118,6 +118,7 @@ cmd_status	ft_echo(t_ast_node *cmd_node);
 cmd_status	ft_cd(t_ast_node *cmd_node);
 cmd_status	ft_exit();
 cmd_status	ft_pwd();
+void		setup_signal_handlers();
 
 cmd_status execute_ast(t_ast_node *node);
 

@@ -6,7 +6,7 @@
 #    By: stalash <stalash@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/11/16 10:25:09 by stalash          ###   ########.fr        #
+#    Updated: 2024/11/16 19:53:32 by stalash          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS	:= main.c \
 	execution/buildins/cd.c \
 	execution/buildins/exit.c \
 	execution/buildins/pwd.c \
+	execution/buildins/signal.c
 
 OBJS	:= $(SRCS:%.c=bin/%.o)
 
