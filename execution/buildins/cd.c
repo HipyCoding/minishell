@@ -3,21 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:49:59 by stalash           #+#    #+#             */
-/*   Updated: 2024/11/14 04:43:14 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/16 10:13:43 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+// Helper function to manage the previous directory
+static char *get_and_update_prev_dir(const char *new_dir)
+{
+	static char *prev_dir = NULL;
+	char *current_dir;
+
+	// Store the current directory before updating
+	if (new_dir)
+	{
+		current_dir = getcwd(NULL, 0);
+		if (!current_dir)
+		{
+			perror("getcwd");
+			return NULL;
+		}
+		// Free the old prev_dir and set it the new current dir
+		if (prev_dir)
+			free(prev_dir);
+		prev_dir = ft_strdup(new_dir);
+		free(current_dir);
+	}
+	return (prev_dir);
+}
+
 cmd_status ft_cd(t_ast_node *cmd_node)
 {
-	char *path;
 	t_ast_node *arg;
+	char *path;
+	char cwd[PATH_MAX];
 
-	// get first argument
 	arg = cmd_node->args;
 	// if no argument is provided, should change to HOME directory
 	if (!arg)
@@ -26,8 +50,24 @@ cmd_status ft_cd(t_ast_node *cmd_node)
 		if (!path)
 		{
 			printf("cd: HOME not set\n");
-			return CMD_ERROR;
+			return (CMD_ERROR);
 		}
+	}
+	/* Handle "cd -" to switch to the previous directory
+	 so the diferrence bettween cd .. and cd - is
+	 cd - toggles between the current directory and the last directory you were in.
+	 The shell maintains a memory of your last directory to support this functionality.
+	 When executed, it also prints the path of the directory you switched to	*/
+	else if (ft_strncmp(arg->data, "-", 2) == 0)
+	{
+		path = get_and_update_prev_dir(NULL);
+		if (!path)
+		{
+			printf("cd: OLDPWD not set\n");
+			return (CMD_ERROR);
+		}
+		// Print the previous directory
+		printf("%s\n", path);
 	}
 	else
 	{
@@ -37,8 +77,14 @@ cmd_status ft_cd(t_ast_node *cmd_node)
 		if (arg->next)
 		{
 			printf("cd: too many arguments\n");
-			return CMD_ERROR;
+			return (CMD_ERROR);
 		}
+	}
+	// Save the current working directory before changing
+	if (!getcwd(cwd, sizeof(cwd)))
+	{
+		perror("getcwd");
+		return CMD_ERROR;
 	}
 	// Try to change directory
 	if (chdir(path) == -1)
@@ -52,5 +98,8 @@ cmd_status ft_cd(t_ast_node *cmd_node)
 			printf("cd: %s: Not a directory\n", path);
 		return CMD_ERROR;
 	}
-	return CMD_SUCCESS;
+	// if success updated prev_dir
+	get_and_update_prev_dir(cwd);
+	return (CMD_SUCCESS);
 }
+
