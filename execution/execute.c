@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/14 02:18:44 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/28 21:06:42 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,10 @@ cmd_status execute_pipe_node(t_ast_node *node)
 
 cmd_status execute_redir_node(t_ast_node *node)
 {
-	printf(">redirection< - not implemented \n");
+	cmd_status status;
+
+	printf("redirection here \n");
+	status = handle_redirection(node);
 	return execute_ast(node->left);
 }
 

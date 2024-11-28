@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/16 19:52:25 by stalash          ###   ########.fr       */
+/*   Updated: 2024/11/28 21:05:36 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ cmd_status	ft_cd(t_ast_node *cmd_node);
 cmd_status	ft_exit();
 cmd_status	ft_pwd();
 void		setup_signal_handlers();
+cmd_status handle_redirection(t_ast_node *redir_node);
 
 cmd_status execute_ast(t_ast_node *node);
 

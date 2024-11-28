@@ -6,7 +6,7 @@
 #    By: stalash <stalash@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/11/16 19:53:32 by stalash          ###   ########.fr        #
+#    Updated: 2024/11/28 21:08:37 by stalash          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS	:= main.c \
 	parsing/init_lexer.c \
 	parsing/syntax_check.c \
 	execution/execute.c \
+	execution/buildins/redirections.c\
 	execution/buildins/echo.c \
 	execution/buildins/cd.c \
 	execution/buildins/exit.c \
