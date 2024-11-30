@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/14 01:32:59 by candrese         ###   ########.fr       */
+/*   Updated: 2024/11/30 19:33:11 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ t_ast_node *parse_command(t_token **tokens)
 
 	if (!tokens || !*tokens || (*tokens)->type != NODE_CMD)
 		return NULL;
-		
+
 	current = *tokens;
 	cmd_node = create_ast_node(NODE_CMD, ft_strdup(current->data));
 	if (!cmd_node)
 		return NULL;
-		
+
 	current = current->next;
 	// Process arguments until we hit a pipe or redirection or end
 	while (current && current->type == NODE_ARG)
@@ -157,7 +157,5 @@ t_ast_node *parse(t_token *tokens, t_ast_node *ast, cmd_status *status)
 	// if (ast)
 	// 	free_ast(ast);
 	// printf("parse finish\n");
-	*status = execute_ast(ast);
-	printf("execution finish\n");
 	return ast;
 }

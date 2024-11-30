@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:09:40 by stalash           #+#    #+#             */
-/*   Updated: 2024/11/28 21:12:41 by stalash          ###   ########.fr       */
+/*   Updated: 2024/11/30 19:35:53 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	handle_heredoc(char *delimiter)
 }
 
 
-cmd_status handle_redirection(t_ast_node *redir_node)
+cmd_status handle_redirection(t_ast_node *redir_node, t_shell *shell)
 {
 	int st_fd_out;
 	int st_fd_in;
@@ -92,7 +92,7 @@ cmd_status handle_redirection(t_ast_node *redir_node)
 	else if (redir_node->redir_type == 4)
 		handle_heredoc(redir_node->right->data);
 	// execute the command with redirections in place
-	status = execute_ast(redir_node->left);
+	status = execute_ast(redir_node->left, shell);
 	// we reset filedscriptors back to standard here
 	dup2(st_fd_out, STDOUT_FILENO);
 	dup2(st_fd_in, STDIN_FILENO);

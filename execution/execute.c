@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/28 21:06:42 by stalash          ###   ########.fr       */
+/*   Updated: 2024/11/30 19:29:19 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,26 +82,23 @@ cmd_status execute_external(t_ast_node *cmd_node)
 	}
 }
 
-cmd_status	execute_builtin(t_ast_node *cmd_node)
+cmd_status execute_builtin(t_ast_node *cmd_node, t_shell *shell)
 {
 	if (ft_strncmp(cmd_node->data, "echo", 5) == 0)
 	{
 		printf("execute echo buildin here\n");
 		return (ft_echo(cmd_node));
 	}
-		//return (ft_echo(cmd_node));
 	else if (ft_strncmp(cmd_node->data, "cd", 3) == 0)
 	{
 		printf("execute cd buildin here\n");
 		return (ft_cd(cmd_node));
 	}
-		//return (ft_cd(cmd_node));
 	else if (ft_strncmp(cmd_node->data, "pwd", 4) == 0)
 	{
 		printf("execute pwd buildin here\n");
 		return (ft_pwd());
 	}
-		//return (ft_pwd());
 	else if (ft_strncmp(cmd_node->data, "export", 7) == 0)
 	{
 		printf("execute export buildin here\n");
@@ -117,9 +114,9 @@ cmd_status	execute_builtin(t_ast_node *cmd_node)
 	else if (ft_strncmp(cmd_node->data, "env", 4) == 0)
 	{
 		printf("execute env buildin here\n");
-		return CMD_SUCCESS;
+		return (ft_env(cmd_node, shell->env_list));
 	}
-		//return (ft_env(cmd_node));
+
 	else if (ft_strncmp(cmd_node->data, "exit", 5) == 0)
 	{
 		printf("execute exit buildin here\n");
@@ -145,46 +142,44 @@ bool	is_builtin(char *cmd)
 	return (false);
 }
 
-cmd_status execute_cmd_node(t_ast_node *node)
+cmd_status execute_cmd_node(t_ast_node *node, t_shell *shell)
 {
 	if (is_builtin(node->data))
-		return execute_builtin(node);
+		return execute_builtin(node, shell);
 	else
 		return execute_external(node);
 	printf("Command not found: %s\n", node->data);
 	return CMD_ERROR;
 }
 
-cmd_status execute_pipe_node(t_ast_node *node)
+cmd_status execute_pipe_node(t_ast_node *node, t_shell *shell)
 {
 	cmd_status status;
 
 	printf(">pipe<  - not implemented \n");
-	status = execute_ast(node->left);
+	status = execute_ast(node->left, shell);
 	if (status == CMD_SUCCESS)
-		status = execute_ast(node->right);
+		status = execute_ast(node->right, shell);
 	return status;
 }
 
-cmd_status execute_redir_node(t_ast_node *node)
+cmd_status execute_redir_node(t_ast_node *node, t_shell *shell)
 {
-	cmd_status status;
-
-	printf("redirection here \n");
-	status = handle_redirection(node);
-	return execute_ast(node->left);
+	// printf(">redirection< - not implemented \n");
+	handle_redirection(node, shell);
+	return execute_ast(node->left, shell);
 }
 
-cmd_status execute_ast(t_ast_node *node)
+cmd_status execute_ast(t_ast_node *node, t_shell *shell)
 {
 	if (!node)
 		return CMD_ERROR;
 	if (node->type == NODE_PIPE)
-		return execute_pipe_node(node);
+		return execute_pipe_node(node, shell);
 	else if (node->type == NODE_REDIR)
-		return execute_redir_node(node);
+		return execute_redir_node(node, shell);
 	else if (node->type == NODE_CMD)
-		return execute_cmd_node(node);
+		return execute_cmd_node(node, shell);
 	printf("Unknown node type\n");
 	return CMD_ERROR;
 }

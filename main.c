@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/11/16 19:53:10 by stalash          ###   ########.fr       */
+/*   Updated: 2024/11/30 19:26:59 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@
 
 // main with readline (no arguments)
 
-int main()
+int main(int ac, char **av, char **envp)
 {
+	(void)ac;
+	(void)av;
 	char *input;
-
+	t_shell shell;
 	t_ast_node *ast;
 	t_token *tokens;
 	cmd_status status;
@@ -38,9 +40,12 @@ int main()
 	tokens = NULL;
 	status = 0;
 	// signal(SIGINT, handle_sig);
+	shell.env_list = init_env(envp);
+	if (!shell.env_list)
+		return 1;
 	while(1)
 	{
-		setup_signal_handlers();
+		// setup_signal_handlers();
 		input = readline("minishell > ");
 		if (!input)
 			break;
@@ -50,7 +55,8 @@ int main()
 			free(input);
 			return 1;
 		}
-		ast = parse(tokens, ast, &status);
+	ast = parse(tokens, ast, &status);
+	status = execute_ast(ast, &shell);
 	free(input);
 	cleanup_tokens(tokens);
 	if (ast)
@@ -58,7 +64,6 @@ int main()
 	}
 	return 0;
 }
-
 // main for debugger (with arguments)
 
 // int main(int argc, char **argv, char **env)
