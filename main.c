@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/11/30 19:26:59 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/01 10:15:03 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,21 @@
 
 // main with readline (no arguments)
 
-// main with readline (no arguments)
-
 int main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
-	char *input;
 	t_shell shell;
+	char *input;
 	t_ast_node *ast;
 	t_token *tokens;
 	cmd_status status;
 
-	ast = NULL;
-	tokens = NULL;
-	status = 0;
-	// signal(SIGINT, handle_sig);
 	shell.env_list = init_env(envp);
 	if (!shell.env_list)
 		return 1;
-	while(1)
+
+	while (1)
 	{
 		// setup_signal_handlers();
 		input = readline("minishell > ");
@@ -51,17 +46,16 @@ int main(int ac, char **av, char **envp)
 			break;
 		tokens = lexer(input);
 		if (!tokens)
-		{
 			free(input);
-			return 1;
+		ast = parse(tokens, ast, &shell, &status);
+		if (ast)
+		{
+			status = execute_ast(ast, &shell);
+			free_ast(ast);
 		}
-	ast = parse(tokens, ast, &status);
-	status = execute_ast(ast, &shell);
-	free(input);
-	cleanup_tokens(tokens);
-	if (ast)
-		free_ast(ast);
+		// free(input);
 	}
+	cleanup_env_list(shell.env_list);
 	return 0;
 }
 // main for debugger (with arguments)

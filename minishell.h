@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/30 19:36:02 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/01 10:20:35 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-#define SINGLE_QUOTE_MARK "S_QT_mk1! "
+#define SINGLE_QUOTE_MARK "!+S_QTmk1+!"
 
 // Status codes for command execution
 typedef enum
@@ -106,16 +106,19 @@ t_token			*init_new_token(const char *input, int *i, t_token *prev_token);
 void			add_token(t_token **head, t_token *new_token);
 t_token			*lexer(const char *input);
 void			cleanup_tokens(t_token *head);
+void			cleanup_env_list(t_env *env_list);
 t_ast_node		*parse_command(t_token **tokens);
 t_ast_node		*parse_redirection(t_token **tokens);
 t_ast_node		*parse_command_with_redirections(t_token **tokens);
 t_ast_node		*parse_pipeline(t_token **tokens);
-t_ast_node		*parse(t_token *tokens, t_ast_node *ast, cmd_status *status);
+t_ast_node *parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *status);
 void			print_ast(t_ast_node *node, int depth);
 void			free_ast(t_ast_node *node);
 void			free_tokens(t_token *head);
 char			*extract_env_var_name(const char *input, int *i);
 char			*handle_quoted_string(const char *input, int *i);
+
+void expand_env_vars_in_node(t_ast_node *node, t_env *env_list);
 
 // lexing utils
 bool is_special_char(char c);

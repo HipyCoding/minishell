@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 04:56:02 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/16 10:23:15 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/01 10:19:29 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../minishell.h"
+
+void cleanup_env_list(t_env *env_list)
+{
+	t_env *current;
+	t_env *next;
+
+	current = env_list;
+	while (current)
+	{
+		next = current->next;
+		if (current)
+		{
+			free(current->key);
+			free(current->value);
+			free(current);
+		}
+		current = next;
+	}
+}
 
 void cleanup_tokens(t_token *head)
 {
@@ -24,7 +43,6 @@ void cleanup_tokens(t_token *head)
 		head = temp;
 	}
 }
-
 
 void free_ast (t_ast_node *node)
 {

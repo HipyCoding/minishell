@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 00:51:30 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/09 17:04:38 by candrese         ###   ########.fr       */
+/*   Updated: 2024/12/01 10:16:37 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ char *handle_quoted_string(const char *input, int *i)
 	int start;
 	int len;
 	char *data;
+	char *temp;
 
-	quote_char = input[*i];		//For know if it's ' or "
+	quote_char = input[*i];
 	start = *i + 1;
 	len = 0;
-	// find closing quote
+
 	while (input[start + len] && input[start + len] != quote_char)
 		len++;
-	// if no closing quote, just include the opening quote
 	if (!input[start + len])
 	{
 		data = ft_calloc(2, sizeof(char));
@@ -90,14 +90,17 @@ char *handle_quoted_string(const char *input, int *i)
 		data[1] = '\0';
 		return data;
 	}
-	// put quotes into the token
-	data = ft_calloc(sizeof(char), len + 3);
-	if (!data)
-		return NULL;
-	data[0] = quote_char;
-	ft_strlcpy(data + 1, input + start, len + 1);
-	data[len + 1] = quote_char;
-	data[len + 2] = '\0';
+    // For single quotes we add marker
+	if (quote_char == '\'')
+	{
+		temp = ft_substr(input + start, 0, len);
+		if (!temp)
+			return NULL;
+		data = ft_strjoin(SINGLE_QUOTE_MARK, temp);
+		free(temp);
+	}
+	else
+		data = ft_substr(input + start, 0, len);
 	*i += len + 1;
 	return data;
 }

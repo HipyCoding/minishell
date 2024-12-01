@@ -3,32 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/30 19:33:11 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/01 10:14:08 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Modified parse_command to handle arguments properly
 t_ast_node *parse_command(t_token **tokens)
 {
 	t_ast_node *cmd_node;
 	t_ast_node *arg_node;
+	t_ast_node *last_arg;
 	t_token *current;
 
 	if (!tokens || !*tokens || (*tokens)->type != NODE_CMD)
 		return NULL;
-
 	current = *tokens;
 	cmd_node = create_ast_node(NODE_CMD, ft_strdup(current->data));
 	if (!cmd_node)
 		return NULL;
-
 	current = current->next;
-	// Process arguments until we hit a pipe or redirection or end
+	last_arg = NULL;
+	// handle arguments until we hit a pipe or redirection or end
 	while (current && current->type == NODE_ARG)
 	{
 		arg_node = create_ast_node(NODE_ARG, ft_strdup(current->data));
@@ -37,9 +36,21 @@ t_ast_node *parse_command(t_token **tokens)
 			free_ast(cmd_node);
 			return NULL;
 		}
-		// Add argument to front of list
-		arg_node->next = cmd_node->args;
-		cmd_node->args = arg_node;
+		// Add argument to end of list
+		if (!cmd_node->args)
+			cmd_node->args = arg_node;
+		else
+		{
+			if (!last_arg)
+			{
+				// we find the last argument
+				last_arg = cmd_node->args;
+				while (last_arg->next)
+					last_arg = last_arg->next;
+			}
+			last_arg->next = arg_node;
+			last_arg = arg_node;
+		}
 		current = current->next;
 	}
 	*tokens = current;
@@ -136,7 +147,7 @@ t_ast_node *parse_pipeline(t_token **tokens)
 }
 
 // can add more parsing modules here
-t_ast_node *parse(t_token *tokens, t_ast_node *ast, cmd_status *status)
+t_ast_node *parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *status)
 {
 	syntax_error_t	error;
 
@@ -153,9 +164,6 @@ t_ast_node *parse(t_token *tokens, t_ast_node *ast, cmd_status *status)
 		*status = CMD_ERROR;
 		return NULL;
 	}
-	// 	cleanup_tokens(tokens);
-	// if (ast)
-	// 	free_ast(ast);
-	// printf("parse finish\n");
+	expand_env_vars_in_node(ast, shell->env_list);
 	return ast;
 }

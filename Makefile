@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: stalash <stalash@student.42.fr>            +#+  +:+       +#+         #
+#    By: christian <christian@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/11/30 19:02:46 by stalash          ###   ########.fr        #
+#    Updated: 2024/12/01 10:05:54 by christian        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS	:= main.c \
 	parsing/cleanup.c \
 	parsing/init_lexer.c \
 	parsing/syntax_check.c \
+	parsing/expansion.c \
 	execution/execute.c \
 	execution/buildins/redirections.c\
 	execution/buildins/echo.c \
@@ -45,7 +46,8 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "building $(NAME)"
 
 $(LIBFT):
-	make -C $(LIBFT_PATH)
+	@make -C $(LIBFT_PATH)
+	@echo "libft build"
 
 bin/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -54,10 +56,12 @@ bin/%.o: %.c
 clean:
 	@echo "cleaning..."
 	@rm -rf $(OBJS)
+	@make -C $(LIBFT_PATH) clean
 
 fclean: clean
 	@echo "full clean..."
 	@rm -rf $(NAME)
+	@make -C $(LIBFT_PATH) fclean
 
 re: fclean all bonus
 
