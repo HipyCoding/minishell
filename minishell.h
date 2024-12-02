@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/01 10:20:35 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/02 22:15:54 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
 
 # include <stdio.h>
 # include "./includes/libft/libft.h"
@@ -27,6 +26,10 @@
 # include <unistd.h>
 
 #define SINGLE_QUOTE_MARK "!+S_QTmk1+!"
+
+#define RESET_COLOR    "\033[0m"
+# define BRIGHT_RED     "\033[0;91m"
+#define BRIGHT_GREEN   "\033[0;92m"
 
 // Status codes for command execution
 typedef enum
@@ -136,7 +139,7 @@ void				display_syntax_error(syntax_error_t error);
 // builtin functions
 cmd_status	ft_echo(t_ast_node *cmd_node);
 cmd_status	ft_cd(t_ast_node *cmd_node);
-cmd_status	ft_exit();
+cmd_status ft_exit(t_ast_node *cmd_node, t_shell *shell);
 t_env		*init_env(char **envp);
 cmd_status	ft_env(t_ast_node *cmd_node, t_env *env_list);
 cmd_status	ft_pwd();

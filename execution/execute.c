@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/30 19:29:19 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/02 22:10:47 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ cmd_status execute_builtin(t_ast_node *cmd_node, t_shell *shell)
 	else if (ft_strncmp(cmd_node->data, "exit", 5) == 0)
 	{
 		printf("execute exit buildin here\n");
-		return (ft_exit());
+		return (ft_exit(cmd_node, shell));
 	}
 		//return (ft_exit());
 	printf("CMD ERROR in execute_builtin\n");

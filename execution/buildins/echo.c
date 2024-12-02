@@ -6,12 +6,11 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:13:00 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/30 19:02:09 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/02 22:07:31 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 // TODO: single quotations and double quotations are not handled correctly
 cmd_status ft_echo(t_ast_node *cmd_node)
