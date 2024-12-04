@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/02 22:15:54 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/04 12:43:10 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ cmd_status	ft_env(t_ast_node *cmd_node, t_env *env_list);
 cmd_status	ft_pwd();
 void		setup_signal_handlers();
 cmd_status handle_redirection(t_ast_node *redir_node, t_shell *shell);
+cmd_status execute_pipeline(t_ast_node *node, t_shell *shell);
 
 cmd_status execute_ast(t_ast_node *node, t_shell *shell);
 
