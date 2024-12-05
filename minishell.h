@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/04 12:43:10 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:39:09 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-#define SINGLE_QUOTE_MARK "!+S_QTmk1+!"
+# define SINGLE_QUOTE_MARK "!+S_QTmk1+!"
 
-#define RESET_COLOR    "\033[0m"
+# define RESET_COLOR    "\033[0m"
 # define BRIGHT_RED     "\033[0;91m"
-#define BRIGHT_GREEN   "\033[0;92m"
+# define BRIGHT_GREEN   "\033[0;92m"
 
 // Status codes for command execution
 typedef enum
@@ -114,39 +114,45 @@ t_ast_node		*parse_command(t_token **tokens);
 t_ast_node		*parse_redirection(t_token **tokens);
 t_ast_node		*parse_command_with_redirections(t_token **tokens);
 t_ast_node		*parse_pipeline(t_token **tokens);
-t_ast_node *parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *status);
+t_ast_node		*parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *status);
 void			print_ast(t_ast_node *node, int depth);
 void			free_ast(t_ast_node *node);
 void			free_tokens(t_token *head);
 char			*extract_env_var_name(const char *input, int *i);
 char			*handle_quoted_string(const char *input, int *i);
 
-void expand_env_vars_in_node(t_ast_node *node, t_env *env_list);
 
 // lexing utils
-bool is_special_char(char c);
-bool is_whitespace(char c);
-bool is_quote(char c);
-bool skip_whitespace(const char *input, int *i);
+bool			is_special_char(char c);
+bool			is_whitespace(char c);
+bool			is_quote(char c);
+bool			skip_whitespace(const char *input, int *i);
 
 // syntax checks
-bool				is_valid_command(const char *cmd);
-syntax_error_t		check_command_syntax(t_ast_node *cmd_node);
-syntax_error_t		check_redirection_syntax(t_ast_node *redir_node);
-syntax_error_t		check_syntax(t_ast_node *node);
-void				display_syntax_error(syntax_error_t error);
+bool			is_valid_command(const char *cmd);
+syntax_error_t	check_command_syntax(t_ast_node *cmd_node);
+syntax_error_t	check_redirection_syntax(t_ast_node *redir_node);
+syntax_error_t	check_syntax(t_ast_node *node);
+void			display_syntax_error(syntax_error_t error);
+
+// env
+t_env			*init_env(char **envp);
+cmd_status		ft_env(t_ast_node *cmd_node, t_env *env_list);
+void			expand_env_vars_in_node(t_ast_node *node, t_env *env_list);
+t_env			*create_env_node(char *key, char *value);
+bool			split_env_str(char *env_str, char **key, char **value);
+void			add_env_node(t_env **env_list, t_env *new_node);
 
 // builtin functions
-cmd_status	ft_echo(t_ast_node *cmd_node);
-cmd_status	ft_cd(t_ast_node *cmd_node);
-cmd_status ft_exit(t_ast_node *cmd_node, t_shell *shell);
-t_env		*init_env(char **envp);
-cmd_status	ft_env(t_ast_node *cmd_node, t_env *env_list);
-cmd_status	ft_pwd();
-void		setup_signal_handlers();
-cmd_status handle_redirection(t_ast_node *redir_node, t_shell *shell);
-cmd_status execute_pipeline(t_ast_node *node, t_shell *shell);
+cmd_status		ft_echo(t_ast_node *cmd_node);
+cmd_status		ft_cd(t_ast_node *cmd_node);
+cmd_status		ft_exit(t_ast_node *cmd_node, t_shell *shell);
+cmd_status		ft_pwd();
+void			setup_signal_handlers();
+cmd_status		handle_redirection(t_ast_node *redir_node, t_shell *shell);
+cmd_status		execute_pipeline(t_ast_node *node, t_shell *shell);
+cmd_status		ft_export(t_ast_node *cmd_node, t_env **env_list);
 
-cmd_status execute_ast(t_ast_node *node, t_shell *shell);
+cmd_status		execute_ast(t_ast_node *node, t_shell *shell);
 
 #endif

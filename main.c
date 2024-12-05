@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/12/01 10:15:03 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/05 12:15:53 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,24 @@ int main(int ac, char **av, char **envp)
 
 	while (1)
 	{
-		// setup_signal_handlers();
+		setup_signal_handlers();
 		input = readline("minishell > ");
 		if (!input)
 			break;
 		tokens = lexer(input);
 		if (!tokens)
-			free(input);
+			free(tokens);
 		ast = parse(tokens, ast, &shell, &status);
 		if (ast)
 		{
 			status = execute_ast(ast, &shell);
 			free_ast(ast);
 		}
-		// free(input);
+		add_history(input);
+		free(input);
 	}
 	cleanup_env_list(shell.env_list);
-	return 0;
+	return (0);
 }
 // main for debugger (with arguments)
 

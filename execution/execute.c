@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/04 12:45:44 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:28:40 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,8 @@ cmd_status execute_builtin(t_ast_node *cmd_node, t_shell *shell)
 	else if (ft_strncmp(cmd_node->data, "export", 7) == 0)
 	{
 		printf("execute export buildin here\n");
-		return CMD_SUCCESS;
+		return (ft_export(cmd_node, &(*shell).env_list));
 	}
-		//return (ft_export(cmd_node));
 	else if (ft_strncmp(cmd_node->data, "unset", 6) == 0)
 	{
 		printf("execute unset buildin here\n");
