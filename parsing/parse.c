@@ -6,7 +6,7 @@
 /*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/01 10:14:08 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/06 16:01:31 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,6 @@ t_ast_node *parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *s
 		*status = CMD_ERROR;
 		return NULL;
 	}
-	expand_env_vars_in_node(ast, shell->env_list);
+	expand_env_vars_in_node(ast, shell);
 	return ast;
 }

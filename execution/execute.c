@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/05 12:28:40 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/06 16:31:47 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,14 +173,16 @@ cmd_status execute_redir_node(t_ast_node *node, t_shell *shell)
 
 cmd_status execute_ast(t_ast_node *node, t_shell *shell)
 {
+	cmd_status status = CMD_ERROR;
+
 	if (!node)
 		return CMD_ERROR;
 	if (node->type == NODE_PIPE)
-		return execute_pipe_node(node, shell);
+		status = execute_pipe_node(node, shell);
 	else if (node->type == NODE_REDIR)
-		return execute_redir_node(node, shell);
+		status = execute_redir_node(node, shell);
 	else if (node->type == NODE_CMD)
-		return execute_cmd_node(node, shell);
-	printf("Unknown node type\n");
-	return (CMD_ERROR);
+		status = execute_cmd_node(node, shell);
+	shell->exit_status = status;
+	return (status);
 }

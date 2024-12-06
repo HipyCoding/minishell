@@ -6,7 +6,7 @@
 /*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 07:07:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/01 09:51:41 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/06 16:33:35 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ char *get_env_value(t_env *env_list, const char *key)
 }
 
 // Expand a single string that might contain environment variables
-char *expand_string(const char *str, t_env *env_list)
+char *expand_string(const char *str, t_shell *shell)
 {
 	if (str[0] == SINGLE_QUOTE_MARK[0])
 		return ft_strdup(str + 1);
-	// If string starts with $ and contains no other special characters we
-	// treat it as a environment variabel
+	if (ft_strcmp(str, "$?") == 0)
+		return ft_itoa(shell->exit_status);
 	if (str[0] == '$' && !ft_strchr(str + 1, '$'))
 	{
-		char *value = get_env_value(env_list, str);
+		char *value = get_env_value(shell->env_list, str);
 		if (value)
 			return ft_strdup(value);
 		return ft_strdup("");
@@ -50,7 +50,7 @@ char *expand_string(const char *str, t_env *env_list)
 }
 
 // Expand environment variables in the AST
-void expand_env_vars_in_node(t_ast_node *node, t_env *env_list)
+void expand_env_vars_in_node(t_ast_node *node, t_shell *shell)
 {
 	char *expanded_value;
 	t_ast_node *arg;
@@ -59,7 +59,7 @@ void expand_env_vars_in_node(t_ast_node *node, t_env *env_list)
 		return;
 	if (node->data && node->data[0] == '$')
 	{
-		expanded_value = expand_string(node->data, env_list);
+		expanded_value = expand_string(node->data, shell);
 		if (expanded_value)
 		{
 			free(node->data);
@@ -69,9 +69,9 @@ void expand_env_vars_in_node(t_ast_node *node, t_env *env_list)
 	arg = node->args;
 	while (arg)
 	{
-		if (arg->data && arg->data[0] == '$')
+		if (arg && arg->data && arg->data[0] == '$')
 		{
-			expanded_value = expand_string(arg->data, env_list);
+			expanded_value = expand_string(arg->data, shell);
 			if (expanded_value)
 			{
 				free(arg->data);
@@ -80,7 +80,6 @@ void expand_env_vars_in_node(t_ast_node *node, t_env *env_list)
 		}
 		arg = arg->next;
 	}
-	// travers left and right nodes
-	expand_env_vars_in_node(node->left, env_list);
-	expand_env_vars_in_node(node->right, env_list);
+	expand_env_vars_in_node(node->left, shell);
+	expand_env_vars_in_node(node->right, shell);
 }

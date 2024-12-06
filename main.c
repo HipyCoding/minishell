@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/12/05 12:15:53 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/06 16:32:35 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int main(int ac, char **av, char **envp)
 	cmd_status status;
 
 	shell.env_list = init_env(envp);
+	shell.exit_status = 0;
 	if (!shell.env_list)
 		return 1;
-
 	while (1)
 	{
 		setup_signal_handlers();
@@ -59,6 +59,7 @@ int main(int ac, char **av, char **envp)
 	cleanup_env_list(shell.env_list);
 	return (0);
 }
+
 // main for debugger (with arguments)
 
 // int main(int argc, char **argv, char **env)

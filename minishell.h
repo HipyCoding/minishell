@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/05 12:39:09 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/06 16:01:16 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_env
 typedef struct s_shell
 {
 	t_env *env_list;
-	// we add variables later
+	int exit_status;
 } t_shell;
 
 typedef enum
@@ -138,7 +138,7 @@ void			display_syntax_error(syntax_error_t error);
 // env
 t_env			*init_env(char **envp);
 cmd_status		ft_env(t_ast_node *cmd_node, t_env *env_list);
-void			expand_env_vars_in_node(t_ast_node *node, t_env *env_list);
+void			expand_env_vars_in_node(t_ast_node *node, t_shell *shell);
 t_env			*create_env_node(char *key, char *value);
 bool			split_env_str(char *env_str, char **key, char **value);
 void			add_env_node(t_env **env_list, t_env *new_node);
