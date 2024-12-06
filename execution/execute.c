@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/06 16:31:47 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/06 19:04:36 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,42 +86,33 @@ cmd_status execute_builtin(t_ast_node *cmd_node, t_shell *shell)
 {
 	if (ft_strncmp(cmd_node->data, "echo", 5) == 0)
 	{
-		printf("execute echo buildin here\n");
 		return (ft_echo(cmd_node));
 	}
 	else if (ft_strncmp(cmd_node->data, "cd", 3) == 0)
 	{
-		printf("execute cd buildin here\n");
 		return (ft_cd(cmd_node));
 	}
 	else if (ft_strncmp(cmd_node->data, "pwd", 4) == 0)
 	{
-		printf("execute pwd buildin here\n");
 		return (ft_pwd());
 	}
 	else if (ft_strncmp(cmd_node->data, "export", 7) == 0)
 	{
-		printf("execute export buildin here\n");
 		return (ft_export(cmd_node, &(*shell).env_list));
 	}
 	else if (ft_strncmp(cmd_node->data, "unset", 6) == 0)
 	{
-		printf("execute unset buildin here\n");
-		return CMD_SUCCESS;
+		return (ft_unset(cmd_node, &(*shell).env_list));
 	}
-		//return (ft_unset(cmd_node));
 	else if (ft_strncmp(cmd_node->data, "env", 4) == 0)
 	{
-		printf("execute env buildin here\n");
 		return (ft_env(cmd_node, shell->env_list));
 	}
 
 	else if (ft_strncmp(cmd_node->data, "exit", 5) == 0)
 	{
-		printf("execute exit buildin here\n");
 		return (ft_exit(cmd_node, shell));
 	}
-		//return (ft_exit());
 	printf("CMD ERROR in execute_builtin\n");
 	return (CMD_ERROR);
 }
@@ -134,7 +125,7 @@ bool	is_builtin(char *cmd)
 	i = 0;
 	while (builtins[i])
 	{
-		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i] + 1)) == 0)
+		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i]) + 1) == 0)
 			return (true);
 		i++;
 	}

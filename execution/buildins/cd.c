@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:49:59 by stalash           #+#    #+#             */
-/*   Updated: 2024/11/16 10:13:43 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/06 19:21:32 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static char *get_and_update_prev_dir(const char *new_dir)
 
 cmd_status ft_cd(t_ast_node *cmd_node)
 {
-	t_ast_node *arg;
-	char *path;
-	char cwd[PATH_MAX];
+	t_ast_node	*arg;
+	char		*path;
+	char		cwd[PATH_MAX];
 
 	arg = cmd_node->args;
 	// if no argument is provided, should change to HOME directory
