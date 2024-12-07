@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/06 19:06:33 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/07 21:23:00 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ t_ast_node *parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *s
 	if (!ast)
 		return NULL;
 	error = check_syntax (ast);
-	// print_ast(ast, 0);
+	print_ast(ast, 0);
 	if (error != SYNTAX_OK)
 	{
 		display_syntax_error (error);

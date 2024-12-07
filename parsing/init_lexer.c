@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 05:02:23 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/16 10:23:36 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/07 22:05:26 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char *extract_token_data(const char *input, int *i)
 }
 
 // initialize new token
-t_token *init_new_token(const char *input, int *i, t_token *prev_token)
+t_token *init_new_token(const char *input, int *i, t_token *prev_token, t_shell *shell)
 {
 	t_token *new_token;
 	char *token_data;
@@ -63,17 +63,14 @@ t_token *init_new_token(const char *input, int *i, t_token *prev_token)
 		token_type = get_token_type(token_data, prev_token);
 		new_token = create_token(token_type, token_data);
 	}
-	else if (is_quote(input[*i]))
-	{
-		token_data = handle_quoted_string(input, i);
-		if (!token_data)
-			return NULL;
-		token_type = get_token_type(token_data, prev_token);
-		// after a command it should be parsed as argument
-		if (prev_token && prev_token->type == NODE_CMD)
-			token_type = NODE_ARG;
-		new_token = create_token(token_type, token_data);
-	}
+else if (is_quote(input[*i]))
+{
+	token_data = handle_quoted_string(input, i, shell);
+	if (!token_data)
+		return NULL;
+	token_type = get_token_type(token_data, prev_token);
+	new_token = create_token(token_type, token_data);
+}
 	else
 	{
 		token_data = extract_token_data(input, i);
@@ -90,7 +87,7 @@ t_token *init_new_token(const char *input, int *i, t_token *prev_token)
 }
 
 // Main lexer function
-t_token *lexer(const char *input)
+t_token *lexer(const char *input, t_shell *shell)
 {
 	t_token *head;
 	t_token *new_token;
@@ -103,7 +100,7 @@ t_token *lexer(const char *input)
 
 	while (skip_whitespace(input, &i))
 	{
-		new_token = init_new_token(input, &i, prev_token);
+		new_token = init_new_token(input, &i, prev_token, shell);
 		if (!new_token)
 			return NULL;
 		add_token(&head, new_token);

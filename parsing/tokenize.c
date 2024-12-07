@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 14:01:49 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/06 19:06:11 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/07 21:23:56 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,52 +86,53 @@ void add_token(t_token **head, t_token *new_token)
 // }
 
 
-// for Debug/Print
-// void print_ast(t_ast_node *node, int depth)
-// {
-// 	int i;
+//for Debug/Print
 
-// 	if (!node)
-// 		return;
+void print_ast(t_ast_node *node, int depth)
+{
+	int i;
 
-// 	for (i = 0; i < depth; i++)
-// 		printf("  ");
+	if (!node)
+		return;
 
-// 	// Print token type and node data
-// 	if (node->type == NODE_PIPE)
-// 		printf("PIPE\n");
-// 	else if (node->type == NODE_CMD)
-// 		printf("CMD: '%s'\n", node->data);
-// 	else if (node->type == NODE_REDIR)
-// 	{
-// 		printf("REDIR (");
-// 		if (node->redir_type == 1)
-// 		printf(">");
-// 		else if (node->redir_type == 2)
-// 			printf("<");
-// 		else if (node->redir_type == 3)
-// 			printf(">>");
-// 		else if (node->redir_type == 4)
-// 			printf("<<");
-// 		printf(")\n");
-// 	}
-// 	else if (node->type == NODE_ARG)
-// 		printf("ARG: '%s'\n", node->data);
-// 	else if (node->type == NODE_WORD)
-// 		printf("WORD: '%s'\n", node->data);
-// 	else if (node->type == NODE_ENV)
-// 		printf("ENV: '%s'\n", node->data);
-// 	else if (node->type == NODE_QUOTE)
-// 		printf("QUOTE: '%s'\n", node->data);
-// 	// print children nodes
-// 	if (node->args)
-// 	{
-// 		for (i = 0; i < depth + 1; i++)
-// 			printf("  ");
-// 		printf("Arguments:\n");
-// 		print_ast(node->args, depth + 2);
-// 	}
-// 	print_ast(node->left, depth + 1);
-// 	print_ast(node->right, depth + 1);
-// }
+	for (i = 0; i < depth; i++)
+		printf("  ");
+
+	// Print token type and node data
+	if (node->type == NODE_PIPE)
+		printf("PIPE\n");
+	else if (node->type == NODE_CMD)
+		printf("CMD: '%s'\n", node->data);
+	else if (node->type == NODE_REDIR)
+	{
+		printf("REDIR (");
+		if (node->redir_type == 1)
+		printf(">");
+		else if (node->redir_type == 2)
+			printf("<");
+		else if (node->redir_type == 3)
+			printf(">>");
+		else if (node->redir_type == 4)
+			printf("<<");
+		printf(")\n");
+	}
+	else if (node->type == NODE_ARG)
+		printf("ARG: '%s'\n", node->data);
+	else if (node->type == NODE_WORD)
+		printf("WORD: '%s'\n", node->data);
+	else if (node->type == NODE_ENV)
+		printf("ENV: '%s'\n", node->data);
+	else if (node->type == NODE_QUOTE)
+		printf("QUOTE: '%s'\n", node->data);
+	// print children nodes
+	if (node->args)
+	{
+		for (i = 0; i < depth + 1; i++)
+			printf("  ");
+		printf("Arguments:\n");
+		print_ast(node->args, depth + 2);
+	}
+	print_ast(node->left, depth + 1);
+	print_ast(node->right, depth + 1);
+}
 

@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/06 18:39:23 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/07 22:00:52 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,8 @@ char			*handle_word(const char *input, int *i);
 char			*extract_token_data(const char *input, int *i);
 ast_type		get_basic_token_type(char first_char);
 ast_type		get_token_type(const char *data, const t_token *prev_token);
-t_token			*init_new_token(const char *input, int *i, t_token *prev_token);
 void			add_token(t_token **head, t_token *new_token);
-t_token			*lexer(const char *input);
+t_token *lexer(const char *input, t_shell *shell);
 void			cleanup_tokens(t_token *head);
 void			cleanup_env_list(t_env *env_list);
 t_ast_node		*parse_command(t_token **tokens);
@@ -119,8 +118,9 @@ void			print_ast(t_ast_node *node, int depth);
 void			free_ast(t_ast_node *node);
 void			free_tokens(t_token *head);
 char			*extract_env_var_name(const char *input, int *i);
-char			*handle_quoted_string(const char *input, int *i);
-
+char *handle_quoted_string(const char *input, int *i, t_shell *shell);
+char *get_env_value(t_env *env_list, const char *key);
+t_token	*init_new_token(const char *input, int *i, t_token *prev_token, t_shell *shell);
 
 // lexing utils
 bool			is_special_char(char c);

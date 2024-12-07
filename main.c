@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/12/06 16:32:35 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/07 21:39:28 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(int ac, char **av, char **envp)
 		input = readline("minishell > ");
 		if (!input)
 			break;
-		tokens = lexer(input);
+		tokens = lexer(input, &shell);
 		if (!tokens)
 			free(tokens);
 		ast = parse(tokens, ast, &shell, &status);
@@ -62,24 +62,34 @@ int main(int ac, char **av, char **envp)
 
 // main for debugger (with arguments)
 
-// int main(int argc, char **argv, char **env)
+// int main(int ac, char **av, char **envp)
 // {
+// 	t_shell shell;
+// 	char *input;
 // 	t_ast_node *ast;
 // 	t_token *tokens;
-// 	cmd_status *status;
+// 	cmd_status status;
 
-// 	if (argc < 2)
+// 	if (ac < 1)
 // 		return 1;
-// 	status = 0;
 // 	ast = NULL;
-// 	tokens = NULL;
-// 	printf("\ninput: %s\n", argv[1]);
-// 	tokens = lexer(argv[1]);
-// 	if (!tokens)
+// 	shell.env_list = init_env(envp);
+// 	shell.exit_status = 0;
+// 	if (!shell.env_list)
 // 		return 1;
-// 	ast = parse(tokens, ast, status);
-// 	cleanup_tokens(tokens);
-// 	if (ast)
-// 		free_ast(ast);
-// 	return 0;
+// 		input = av[1];
+// 		tokens = lexer(input);
+// 		if (!tokens)
+// 			free(tokens);
+// 		ast = parse(tokens, ast, &shell, &status);
+// 		if (ast)
+// 		{
+// 			status = execute_ast(ast, &shell);
+// 			free_ast(ast);
+// 		}
+// 		// add_history(input);
+// 		// free(input);
+
+// 	cleanup_env_list(shell.env_list);
+// 	return (0);
 // }

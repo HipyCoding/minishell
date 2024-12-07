@@ -6,7 +6,7 @@
 #    By: stalash <stalash@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/12/06 18:35:22 by stalash          ###   ########.fr        #
+#    Updated: 2024/12/07 20:00:53 by stalash          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		:= minishell
 CFLAGS		:= -Wall -Wextra -Werror -g3 #-fsanitize=address
 CC			:= cc
 
-#		 thank you jorge <3
+#	thank you jorge <3
 
 LIBFT_PATH = ./includes/libft
 LIBFT = $(LIBFT_PATH)/libft.a
