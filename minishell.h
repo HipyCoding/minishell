@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/07 22:00:52 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/09 12:25:28 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ char			*extract_env_var_name(const char *input, int *i);
 char *handle_quoted_string(const char *input, int *i, t_shell *shell);
 char *get_env_value(t_env *env_list, const char *key);
 t_token	*init_new_token(const char *input, int *i, t_token *prev_token, t_shell *shell);
+void print_tokens(t_token *head);
 
 // lexing utils
 bool			is_special_char(char c);
@@ -151,7 +152,7 @@ cmd_status		ft_pwd();
 void			setup_signal_handlers();
 cmd_status		handle_redirection(t_ast_node *redir_node, t_shell *shell);
 cmd_status		execute_pipeline(t_ast_node *node, t_shell *shell);
-cmd_status		ft_export(t_ast_node *cmd_node, t_env **env_list);
+cmd_status ft_export(t_ast_node *cmd_node, t_shell *shell);
 cmd_status		ft_unset(t_ast_node *cmd_node, t_env **env_list);
 
 cmd_status		execute_ast(t_ast_node *node, t_shell *shell);

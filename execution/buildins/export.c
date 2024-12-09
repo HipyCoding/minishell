@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:53:46 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/05 12:22:53 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/09 12:33:04 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,38 +153,43 @@ static bool handle_key_only(char *arg, t_env **env_list)
 	return (true);
 }
 
-bool process_export_arg(char *arg, t_env **env_list)
+bool process_export_arg(char *arg, t_ast_node *current, t_shell *shell)
 {
 	char *key;
 	char *value;
 
-	if (!ft_isalpha(arg[0]) && arg[0] != '_')
+	int len = ft_strlen(arg);
+	if (len > 0 && arg[len - 1] == '=' && current->next)
 	{
-		printf("export: '%s': not a valid identifier\n", arg);
-		return (false);
+		arg[len - 1] = '\0';
+		key = ft_strdup(arg);
+		arg[len - 1] = '=';
+		value = ft_strdup(current->next->data);
+		return handle_key_value(key, value, &shell->env_list);
 	}
 	if (split_env_str(arg, &key, &value))
-		return (handle_key_value(key, value, env_list));
-	return (handle_key_only(arg, env_list));
+		return handle_key_value(key, value, &shell->env_list);
+	return handle_key_only(arg, &shell->env_list);
 }
-
-cmd_status ft_export(t_ast_node *cmd_node, t_env **env_list)
+cmd_status ft_export(t_ast_node *cmd_node, t_shell *shell)
 {
 	t_ast_node *arg;
-	// bool success;
 
 	if (!cmd_node->args)
 	{
-		print_sorted_env(*env_list);
+		print_sorted_env(shell->env_list);
 		return CMD_SUCCESS;
-	}
-	// handle arguments
+    }
 	arg = cmd_node->args;
 	while (arg)
 	{
-		if (!process_export_arg(arg->data, env_list))
-			return (CMD_ERROR);
+		if (!process_export_arg(arg->data, arg, shell))
+			return CMD_ERROR;
+		// Skip next arg if we used it as a value
+		if (arg->next && ft_strlen(arg->data) > 0 && 
+			arg->data[ft_strlen(arg->data) - 1] == '=')
+			arg = arg->next;
 		arg = arg->next;
 	}
-	return (CMD_SUCCESS);
+	return CMD_SUCCESS;
 }

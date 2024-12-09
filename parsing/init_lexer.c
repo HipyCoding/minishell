@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 05:02:23 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/07 22:05:26 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/09 11:11:16 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_token *init_new_token(const char *input, int *i, t_token *prev_token, t_shell 
 
 	if (input[*i] == '$')
 	{
+		// here is expansion?
 		token_data = extract_env_var_name(input, i);
 		if (!token_data)
 			return NULL;

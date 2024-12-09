@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:35:34 by stalash           #+#    #+#             */
-/*   Updated: 2024/11/30 19:40:35 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/09 12:31:48 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,23 @@ t_env *create_env_node(char *key, char *value)
 	return new_node;
 }
 
-// Split environment string into key and value
 bool split_env_str(char *env_str, char **key, char **value)
 {
 	char *equals_sign;
+	char *temp_value;
 
 	equals_sign = ft_strchr(env_str, '=');
 	if (!equals_sign)
 		return false;
 	*equals_sign = '\0';
 	*key = ft_strdup(env_str);
-	*value = ft_strdup(equals_sign + 1);
 	*equals_sign = '=';
-	return (*key && *value);
+	temp_value = equals_sign + 1;
+	if (temp_value[0] == '"' || temp_value[0] == '\'')
+		*value = ft_substr(temp_value, 1, ft_strlen(temp_value) - 2);
+	else
+	*value = ft_strdup(temp_value);
+    return (*key && *value);
 }
 
 // Add node to environment list

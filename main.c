@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/12/07 21:39:28 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/09 12:36:32 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int main(int ac, char **av, char **envp)
 		tokens = lexer(input, &shell);
 		if (!tokens)
 			free(tokens);
+		print_tokens(tokens);
 		ast = parse(tokens, ast, &shell, &status);
 		if (ast)
 		{

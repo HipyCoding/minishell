@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 14:01:49 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/07 21:23:56 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/09 10:26:23 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,17 @@ void add_token(t_token **head, t_token *new_token)
 	current->next = new_token;
 }
 
-// void print_tokens(t_token *head)
-// {
-// 	t_token *current = head;
-// 	printf("Tokens:\n");
-// 	while (current)
-// 	{
-// 		printf("Type: %d, Data: '%s'\n", current->type, current->data);
-// 		current = current->next;
-// 	}
-// 	printf("\n");
-// }
+void print_tokens(t_token *head)
+{
+	t_token *current = head;
+	printf("Tokens:\n");
+	while (current)
+	{
+		printf("Type: %d, Data: '%s'\n", current->type, current->data);
+		current = current->next;
+	}
+	printf("\n");
+}
 
 
 //for Debug/Print

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/06 19:04:36 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/09 11:36:37 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ cmd_status execute_builtin(t_ast_node *cmd_node, t_shell *shell)
 	}
 	else if (ft_strncmp(cmd_node->data, "export", 7) == 0)
 	{
-		return (ft_export(cmd_node, &(*shell).env_list));
+		return (ft_export(cmd_node, shell));
 	}
 	else if (ft_strncmp(cmd_node->data, "unset", 6) == 0)
 	{

@@ -3,26 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 00:51:30 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/07 22:05:13 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/09 12:35:05 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Get length of word (ft_strlen but checks for whitespaces/special_chars)
 int get_word_length(const char *input, int start)
 {
 	int len;
 
 	len = 0;
-	while (input[start + len] && !is_whitespace(input[start + len]) &&
+	while (input[start + len] && !is_whitespace(input[start + len]) && 
 			!is_special_char(input[start + len]))
+	{
+		if (input[start + len] == '=')
+		{
+			len++;
+			if (input[start + len] && (input[start + len] == '"' || input[start + len] == '\''))
+			{
+				char quote = input[start + len];
+				len++;
+				while (input[start + len] && input[start + len] != quote)
+					len++;
+				if (input[start + len] == quote)
+					len++;
+			}
+			else
+				while (input[start + len] && !is_whitespace(input[start + len]) && 
+					!is_special_char(input[start + len]))
+				len++;
+			break;
+		}
 		len++;
-	return len;
+	}
+    return len;
 }
+
 
 // Helper function for special character tokens
 char *handle_special_char(const char *input, int *i)
