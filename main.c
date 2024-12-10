@@ -6,7 +6,7 @@
 /*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/12/09 12:36:32 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/10 19:24:23 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int main(int ac, char **av, char **envp)
 		tokens = lexer(input, &shell);
 		if (!tokens)
 			free(tokens);
-		print_tokens(tokens);
+		// print_tokens(tokens);
 		ast = parse(tokens, ast, &shell, &status);
 		if (ast)
 		{

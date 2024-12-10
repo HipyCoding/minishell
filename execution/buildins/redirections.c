@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:09:40 by stalash           #+#    #+#             */
-/*   Updated: 2024/11/30 19:35:53 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/10 19:23:07 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,18 @@ void	handle_heredoc(char *delimiter)
 	close(pipefd[0]);
 }
 
-
 cmd_status handle_redirection(t_ast_node *redir_node, t_shell *shell)
 {
 	int st_fd_out;
 	int st_fd_in;
 	cmd_status status;
-	t_ast_node *cmd_node;
 
-	// storing FDs
 	st_fd_out = dup(STDOUT_FILENO);
 	st_fd_in = dup(STDIN_FILENO);
 	if (st_fd_out == -1 || st_fd_in == -1)
 	{
 		perror("backup FDs\n");
 		return CMD_ERROR;
-	}
-	cmd_node = redir_node;
-	while (cmd_node)
-	{
-		if (cmd_node->redir_type == 4) // <<
-			handle_heredoc(cmd_node->right->data);
-		cmd_node = cmd_node->left;
 	}
 	if (redir_node->redir_type == 2)
 		redirect_input(redir_node->right->data);
@@ -91,9 +81,7 @@ cmd_status handle_redirection(t_ast_node *redir_node, t_shell *shell)
 		redirect_output(redir_node->right->data, true);
 	else if (redir_node->redir_type == 4)
 		handle_heredoc(redir_node->right->data);
-	// execute the command with redirections in place
 	status = execute_ast(redir_node->left, shell);
-	// we reset filedscriptors back to standard here
 	dup2(st_fd_out, STDOUT_FILENO);
 	dup2(st_fd_in, STDIN_FILENO);
 	close(st_fd_out);

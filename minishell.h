@@ -6,7 +6,7 @@
 /*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/09 12:25:28 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/10 19:18:48 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ t_ast_node		*parse_command_with_redirections(t_token **tokens);
 t_ast_node		*parse_pipeline(t_token **tokens);
 t_ast_node		*parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *status);
 void			print_ast(t_ast_node *node, int depth);
+void free_2d_string(char **array);
 void			free_ast(t_ast_node *node);
 void			free_tokens(t_token *head);
 char			*extract_env_var_name(const char *input, int *i);
@@ -156,5 +157,6 @@ cmd_status ft_export(t_ast_node *cmd_node, t_shell *shell);
 cmd_status		ft_unset(t_ast_node *cmd_node, t_env **env_list);
 
 cmd_status		execute_ast(t_ast_node *node, t_shell *shell);
+cmd_status		execute_external(t_ast_node *cmd_node, t_shell *shell);
 
 #endif

@@ -6,11 +6,26 @@
 /*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 04:56:02 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/01 10:19:29 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/10 19:10:24 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../minishell.h"
+
+void free_2d_string(char **array)
+{
+	int i;
+
+	if (!array)
+		return;
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
 
 void cleanup_env_list(t_env *env_list)
 {

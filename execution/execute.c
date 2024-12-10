@@ -6,81 +6,47 @@
 /*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/09 11:36:37 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/10 19:21:37 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-// this funcion is to chanfe the commad arg AST into char**
 
-char **get_command_arguments(t_ast_node *cmd_node)
-{
-	int argc;
-	t_ast_node *arg_node;
-	char **args;
-	int i;
+// cmd_status execute_external(t_ast_node *cmd_node)
+// {
+// 	pid_t pid;
+// 	int status;
+// 	char **args;
+// 	cmd_status ret;
 
-	argc = 0;
-	i = 0;
-	arg_node = cmd_node->args;
-	while (arg_node)
-	{
-		argc++;
-		arg_node = arg_node->next;
-	}
-	args = (char **)malloc((argc + 2) * sizeof(char *));  // +2 for cmd and NULL
-	if (!args)
-	{
-		perror("malloc");
-		return NULL;
-	}
-	// Add command as first argument
-	args[i++] = ft_strdup(cmd_node->data);
-	arg_node = cmd_node->args;
-	while (arg_node)
-	{
-		args[i++] = ft_strdup(arg_node->data);
-		arg_node = arg_node->next;
-	}
-	args[i] = NULL;
-	return (args);
-}
-
-cmd_status execute_external(t_ast_node *cmd_node)
-{
-	pid_t pid;
-	int status;
-	char **args;
-	cmd_status ret;
-
-	if ((pid = fork()) == -1)
-	{
-		perror("fork");
-		return CMD_ERROR;
-	}
-	if (pid == 0)
-	{
-		args = get_command_arguments(cmd_node);
-		if (!args)
-			exit(CMD_ERROR);
-		execvp(args[0], args);
-		int i = 0;
-		while (args[i])
-			free(args[i++]);
-		free(args);
-		perror("execvp");
-		exit(CMD_ERROR);
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			ret = WEXITSTATUS(status);
-		else
-			ret = CMD_ERROR;
-		return ret;
-	}
-}
+// 	if ((pid = fork()) == -1)
+// 	{
+// 		perror("fork");
+// 		return CMD_ERROR;
+// 	}
+// 	if (pid == 0)
+// 	{
+// 		args = get_command_arguments(cmd_node);
+// 		if (!args)
+// 			exit(CMD_ERROR);
+// 		execvp(args[0], args);
+// 		int i = 0;
+// 		while (args[i])
+// 			free(args[i++]);
+// 		free(args);
+// 		perror("execvp");
+// 		exit(CMD_ERROR);
+// 	}
+// 	else
+// 	{
+// 		waitpid(pid, &status, 0);
+// 		if (WIFEXITED(status))
+// 			ret = WEXITSTATUS(status);
+// 		else
+// 			ret = CMD_ERROR;
+// 		return ret;
+// 	}
+// }
 
 cmd_status execute_builtin(t_ast_node *cmd_node, t_shell *shell)
 {
@@ -137,7 +103,7 @@ cmd_status execute_cmd_node(t_ast_node *node, t_shell *shell)
 	if (is_builtin(node->data))
 		return execute_builtin(node, shell);
 	else
-		return execute_external(node);
+		return execute_external(node, shell);
 	printf("Command not found: %s\n", node->data);
 	return CMD_ERROR;
 }

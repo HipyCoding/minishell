@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: stalash <stalash@student.42.fr>            +#+  +:+       +#+         #
+#    By: christian <christian@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/12/07 20:00:53 by stalash          ###   ########.fr        #
+#    Updated: 2024/12/10 19:18:01 by christian        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS	:= main.c \
 	parsing/syntax_check.c \
 	parsing/expansion.c \
 	execution/execute.c \
+	execution/system_commands.c \
 	execution/buildins/redirections.c\
 	execution/buildins/echo.c \
 	execution/buildins/cd.c \
