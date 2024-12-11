@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 05:02:23 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/09 11:11:16 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/11 13:07:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,33 +56,32 @@ t_token *init_new_token(const char *input, int *i, t_token *prev_token, t_shell 
 
 	if (input[*i] == '$')
 	{
-		// here is expansion?
 		token_data = extract_env_var_name(input, i);
 		if (!token_data)
 			return NULL;
-		// Determine if this env var should be a command or argument
 		token_type = get_token_type(token_data, prev_token);
 		new_token = create_token(token_type, token_data);
+		if (!new_token)
+			free(token_data);
 	}
-else if (is_quote(input[*i]))
-{
-	token_data = handle_quoted_string(input, i, shell);
-	if (!token_data)
-		return NULL;
-	token_type = get_token_type(token_data, prev_token);
-	new_token = create_token(token_type, token_data);
-}
-	else
+	else if (is_quote(input[*i]))
 	{
+		token_data = handle_quoted_string(input, i, shell);
+		if (!token_data)
+			return NULL;
+		token_type = get_token_type(token_data, prev_token);
+		new_token = create_token(token_type, token_data);
+		if (!new_token)
+			free(token_data);
+    }
+    else
+    {
 		token_data = extract_token_data(input, i);
 		if (!token_data)
 			return NULL;
 		new_token = create_token(get_token_type(token_data, prev_token), token_data);
-	}
-	if (!new_token)
-	{
-		free(token_data);
-		return NULL;
+		if (!new_token)
+			free(token_data);
 	}
 	return new_token;
 }
@@ -103,7 +102,10 @@ t_token *lexer(const char *input, t_shell *shell)
 	{
 		new_token = init_new_token(input, &i, prev_token, shell);
 		if (!new_token)
+		{
+			cleanup_tokens (head);
 			return NULL;
+		}
 		add_token(&head, new_token);
 		prev_token = new_token;
 		i++;

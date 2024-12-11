@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/10 19:24:08 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/11 12:51:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,11 @@ t_ast_node *parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *s
 
 	ast = parse_pipeline (&tokens);
 	if (!ast)
+	{
+		cleanup_tokens(tokens);
+		*status = CMD_ERROR;
 		return NULL;
+    }
 	error = check_syntax (ast);
 	// print_ast(ast, 0);
 	if (error != SYNTAX_OK)

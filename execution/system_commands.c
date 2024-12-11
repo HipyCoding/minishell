@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   system_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:17:29 by christian         #+#    #+#             */
-/*   Updated: 2024/12/10 19:18:25 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/11 12:17:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ char **get_command_arguments(t_ast_node *cmd_node)
 char **create_env_array(t_env *env_list)
 {
 	int count = 0;
-	t_env *current = env_list;
+	t_env *current;
+	char *tmp;
 	char **env_array;
 
+	current = env_list;
 	while (current)
 	{
 		count++;
@@ -63,7 +65,7 @@ char **create_env_array(t_env *env_list)
 	count = 0;
 	while (current)
 	{
-		char *tmp = ft_strjoin(current->key, "=");
+		tmp = ft_strjoin(current->key, "=");
 		env_array[count] = ft_strjoin(tmp, current->value);
 		free(tmp);
 		count++;
@@ -78,6 +80,7 @@ char *find_executable(char *cmd, t_env *env_list)
 	char *path_var;
 	char **paths;
 	char *full_path;
+	char *tmp;
 	int i;
 
 	if (ft_strchr(cmd, '/'))
@@ -91,7 +94,7 @@ char *find_executable(char *cmd, t_env *env_list)
 	i = 0;
 	while (paths[i])
 	{
-		char *tmp = ft_strjoin(paths[i], "/");
+		tmp = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin(tmp, cmd);
 		free(tmp);
 		if (access(full_path, X_OK) == 0)
