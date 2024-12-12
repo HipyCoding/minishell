@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/10 19:21:37 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/12 16:28:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,7 @@ cmd_status execute_pipe_node(t_ast_node *node, t_shell *shell)
 cmd_status execute_redir_node(t_ast_node *node, t_shell *shell)
 {
 	// printf(">redirection< - not implemented \n");
-	handle_redirection(node, shell);
-	return execute_ast(node->left, shell);
+	return handle_redirection(node, shell);
 }
 
 cmd_status execute_ast(t_ast_node *node, t_shell *shell)

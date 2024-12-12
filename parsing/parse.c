@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/11 12:51:16 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/12 16:33:31 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ t_ast_node *parse_pipeline(t_token **tokens)
 		free_ast(pipe_node);
 		return NULL;
 	}
+	cleanup_tokens(*tokens);
 	return pipe_node;
 }
 
@@ -169,5 +170,6 @@ t_ast_node *parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *s
 		return NULL;
 	}
 	expand_env_vars_in_node(ast, shell);
+	cleanup_tokens(tokens);
 	return ast;
 }
