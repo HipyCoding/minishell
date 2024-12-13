@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 05:02:23 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/11 13:07:57 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/13 17:58:51 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ t_token *init_new_token(const char *input, int *i, t_token *prev_token, t_shell 
 		new_token = create_token(token_type, token_data);
 		if (!new_token)
 			free(token_data);
-    }
-    else
-    {
+	}
+	else
+	{
 		token_data = extract_token_data(input, i);
 		if (!token_data)
 			return NULL;
@@ -86,29 +86,56 @@ t_token *init_new_token(const char *input, int *i, t_token *prev_token, t_shell 
 	return new_token;
 }
 
-// Main lexer function
-t_token *lexer(const char *input, t_shell *shell)
+static char	*handle_unclosed_quotes(char *input)
 {
-	t_token *head;
-	t_token *new_token;
-	t_token *prev_token;
-	int i;
+	char	*more_input;
+	char	*temp;
 
+	more_input = readline("dquote> ");
+	if (!more_input)
+	{
+		free(input);
+		return (NULL);
+	}
+	temp = ft_strjoin(input, "\n");
+	free(input);
+	input = ft_strjoin(temp, more_input);
+	free(temp);
+	free(more_input);
+	return (input);
+}
+
+t_token	*lexer(const char *input, t_shell *shell)
+{
+	t_token	*head;
+	t_token	*new_token;
+	t_token	*prev_token;
+	char	*full_input;
+	int		i;
+
+	full_input = ft_strdup(input);
+	while (has_unclosed_quotes(full_input))
+	{
+		full_input = handle_unclosed_quotes(full_input);
+		if (!full_input)
+			return (NULL);
+	}
 	head = NULL;
 	prev_token = NULL;
 	i = 0;
-
-	while (skip_whitespace(input, &i))
+	while (skip_whitespace(full_input, &i))
 	{
-		new_token = init_new_token(input, &i, prev_token, shell);
+		new_token = init_new_token(full_input, &i, prev_token, shell);
 		if (!new_token)
 		{
-			cleanup_tokens (head);
-			return NULL;
+			cleanup_tokens(head);
+			free(full_input);
+			return (NULL);
 		}
 		add_token(&head, new_token);
 		prev_token = new_token;
 		i++;
 	}
-	return head;
+	free(full_input);
+	return (head);
 }

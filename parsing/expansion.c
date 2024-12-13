@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 07:07:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/07 16:41:45 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/13 18:27:44 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,44 @@ char *expand_string(const char *str, t_shell *shell)
 	}
 	return ft_strdup(str);
 }
-
-// Expand environment variables in the AST
-void expand_env_vars_in_node(t_ast_node *node, t_shell *shell)
+static char	*expand_variables_in_string(const char *str, t_shell *shell)
 {
-	char *expanded_value;
-	t_ast_node *arg;
+	char	*result;
+	int		i;
+
+	i = 0;
+	if (str[i] == '$')
+		return (expand_string(str, shell));
+	while (str[i] && str[i] != '$')
+		i++;
+	if (!str[i])
+		return (ft_strdup(str));
+	result = ft_substr(str, 0, i);
+	if (!result)
+		return (NULL);
+	if (str[i] == '$')
+	{
+		char *expanded = expand_string(str + i, shell);
+		if (!expanded)
+		{
+			free(result);
+			return (NULL);
+		}
+		char *temp = ft_strjoin(result, expanded);
+		free(result);
+		free(expanded);
+		return (temp);
+	}
+	return (result);
+}
+
+void	expand_env_vars_in_node(t_ast_node *node, t_shell *shell)
+{
+	t_ast_node	*arg;
+	char		*expanded_value;
 
 	if (!node)
-		return;
+		return ;
 	if (node->data && node->data[0] == '$')
 	{
 		expanded_value = expand_string(node->data, shell);
@@ -69,9 +98,10 @@ void expand_env_vars_in_node(t_ast_node *node, t_shell *shell)
 	arg = node->args;
 	while (arg)
 	{
-		if (arg && arg->data && arg->data[0] == '$')
+		if (arg->data && ft_strncmp(arg->data, SINGLE_QUOTE_MARK,
+			ft_strlen(SINGLE_QUOTE_MARK)) != 0)
 		{
-			expanded_value = expand_string(arg->data, shell);
+			expanded_value = expand_variables_in_string(arg->data, shell);
 			if (expanded_value)
 			{
 				free(arg->data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 00:51:30 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 13:48:25 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/13 17:48:45 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int get_word_length(const char *input, int start)
 	int len;
 
 	len = 0;
-	while (input[start + len] && !is_whitespace(input[start + len]) && 
+	while (input[start + len] && !is_whitespace(input[start + len]) &&
 			!is_special_char(input[start + len]))
 	{
 		if (input[start + len] == '=')
@@ -33,14 +33,14 @@ int get_word_length(const char *input, int start)
 					len++;
 			}
 			else
-				while (input[start + len] && !is_whitespace(input[start + len]) && 
+				while (input[start + len] && !is_whitespace(input[start + len]) &&
 					!is_special_char(input[start + len]))
 				len++;
 			break;
 		}
 		len++;
 	}
-    return len;
+	return len;
 }
 
 
@@ -87,31 +87,31 @@ char *handle_word(const char *input, int *i)
 	return data;
 }
 
-char *handle_quoted_string(const char *input, int *i, t_shell *shell)
+char	*handle_quoted_string(const char *input, int *i, t_shell *shell)
 {
-	char quote_char;
-	int start;
-	int len;
-	char *data;
-	char *result;
-	char *var_value;
+	char	quote_char;
+	int		start;
+	int		len;
+	char	*data;
+	char	*result;
+	char	*var_value;
 
 	quote_char = input[*i];
 	start = *i + 1;
 	len = 0;
+	while (input[start + len] && input[start + len] != quote_char)
+		len++;
+	if (!input[start + len])
+		return (NULL);
 	if (quote_char == '\'')
 	{
-		while (input[start + len] && input[start + len] != quote_char)
-			len++;
-		if (!input[start + len])
-			return ft_strdup("\'");
 		data = ft_substr(input + start, 0, len);
 		if (!data)
-			return NULL;
+			return (NULL);
 		result = ft_strjoin(SINGLE_QUOTE_MARK, data);
 		free(data);
 		*i += len + 1;
-		return result;
+		return (result);
 	}
 	result = ft_calloc(1, sizeof(char));
 	while (input[start + len] && input[start + len] != quote_char)

@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 17:27:08 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/13 17:46:30 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ t_token	*init_new_token(const char *input, int *i, t_token *prev_token, t_shell 
 void print_tokens(t_token *head);
 
 // lexing utils
+bool			has_unclosed_quotes(const char *input);
 bool			is_special_char(char c);
 bool			is_whitespace(char c);
 bool			is_quote(char c);
