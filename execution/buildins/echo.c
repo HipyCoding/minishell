@@ -6,43 +6,43 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:13:00 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/02 22:07:31 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/13 14:26:09 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// TODO: single quotations and double quotations are not handled correctly
-cmd_status ft_echo(t_ast_node *cmd_node)
+cmd_status	handle_flags_and_get_args(t_ast_node **arg, bool *print_newline)
 {
-	t_ast_node *arg;
-	bool print_newline;
+	char	*ptr;
 
-	print_newline = true;
-	arg = cmd_node->args;
-	// Handle -n flag
-	while (arg && arg->data)
+	*print_newline = true;
+	while (*arg && (*arg)->data)
 	{
-		if (arg->data[0] != '-')
-			break;
-		char *ptr = arg->data + 1;
+		if ((*arg)->data[0] != '-')
+			break ;
+		ptr = (*arg)->data + 1;
 		while (*ptr == 'n')
 			ptr++;
 		if (*ptr == '\0')
 		{
-			print_newline = false;
-			arg = arg->next;
+			*print_newline = false;
+			*arg = (*arg)->next;
 		}
 		else
-			break;
+			break ;
 	}
-	// Print arguments
+	return (CMD_SUCCESS);
+}
+
+cmd_status	handle_and_print_args(t_ast_node *arg, bool print_newline)
+{
 	while (arg)
 	{
 		if (arg->data)
 		{
-			// Check for single quote marker
-			if (ft_strncmp(arg->data, SINGLE_QUOTE_MARK, ft_strlen(SINGLE_QUOTE_MARK)) == 0)
+			if (ft_strncmp(arg->data, SINGLE_QUOTE_MARK, \
+						ft_strlen(SINGLE_QUOTE_MARK)) == 0)
 				write(STDOUT_FILENO, arg->data + ft_strlen(SINGLE_QUOTE_MARK),
 					ft_strlen(arg->data) - ft_strlen(SINGLE_QUOTE_MARK));
 			else
@@ -54,6 +54,16 @@ cmd_status ft_echo(t_ast_node *cmd_node)
 	}
 	if (print_newline)
 		write(STDOUT_FILENO, "\n", 1);
-	return CMD_SUCCESS;
+	return (CMD_SUCCESS);
 }
 
+cmd_status	ft_echo(t_ast_node *cmd_node)
+{
+	t_ast_node	*arg;
+	bool		print_newline;
+
+	arg = cmd_node->args;
+	if (handle_flags_and_get_args(&arg, &print_newline) == CMD_ERROR)
+		return (CMD_ERROR);
+	return (handle_and_print_args(arg, print_newline));
+}
