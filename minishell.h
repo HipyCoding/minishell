@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/10 19:18:48 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/13 17:27:08 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ typedef enum
 	ERR_INVALID_REDIR,
 	ERR_CMD_NOT_FOUND,
 	ERR_CONSECUTIVE_PIPE,
-	ERR_MISSING_REDIR_FILE
+	ERR_MISSING_REDIR_FILE,
+	ERR_UNCLOSED_QUOTE
 } 		syntax_error_t;
 
 // lexing

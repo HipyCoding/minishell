@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 13:46:35 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/13 17:13:37 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_ast_node	*parse_command(t_token **tokens)
 		return (NULL);
 	current = current->next;
 	last_arg = NULL;
-	while (current && current->type == NODE_ARG)
+	while (current && (current->type == NODE_ARG || current->type == NODE_QUOTE))
 	{
 		if (!handle_new_argument(cmd_node, &last_arg, current->data))
 			return (NULL);
