@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/12/13 17:06:33 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/13 17:34:09 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int main(int ac, char **av, char **envp)
 		setup_signal_handlers();
 		input = readline("minishell > ");
 		if (!input)
+		{
+			write(STDOUT_FILENO, "exit\n", 6);
 			break;
+		}
 		tokens = lexer(input, &shell);
 		if (!tokens)
 			cleanup_tokens(tokens);
