@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:03 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 18:43:02 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/13 23:07:52 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,25 @@ bool	split_env_str(char *env_str, char **key, char **value)
 	else
 		*value = ft_strdup(temp_value);
 	return (*key && *value);
+}
+
+// Search for environment variable in the list
+char	*get_env_value(t_env *env_list, const char *key)
+{
+	t_env	*current;
+
+	if (!key)
+		return (NULL);
+	if (key[0] == '$')
+		key++;
+	current = env_list;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
 }
 
 // Add node to environment list
