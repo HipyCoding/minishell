@@ -6,7 +6,7 @@
 /*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:34:11 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 12:37:18 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/13 13:05:35 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ syntax_error_t	check_redirection_syntax(t_ast_node *redir_node)
 {
 	if (!redir_node->right || !redir_node->right->data)
 		return (ERR_MISSING_REDIR_FILE);
-	if (redir_node->right->type == NODE_REDIR)
+	if (redir_node->right->data[0] == '>' || redir_node->right->data[0] == '<')
 		return (ERR_INVALID_REDIR);
 	return (SYNTAX_OK);
 }

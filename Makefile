@@ -6,12 +6,12 @@
 #    By: christian <christian@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/12/10 19:18:01 by christian        ###   ########.fr        #
+#    Updated: 2024/12/13 13:30:58 by christian        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:= minishell
-CFLAGS		:= -Wall -Wextra -Werror -g3 #-fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror -g3 -fsanitize=address
 CC			:= cc
 
 #	thank you jorge <3
@@ -47,10 +47,10 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
-	@echo "building $(NAME)"
+	@echo "\n$(NAME) build"
 
 $(LIBFT):
-	@make -C $(LIBFT_PATH)
+	@make -sC $(LIBFT_PATH)
 	@echo "libft build"
 
 bin/%.o: %.c
@@ -60,12 +60,12 @@ bin/%.o: %.c
 clean:
 	@echo "cleaning..."
 	@rm -rf $(OBJS)
-	@make -C $(LIBFT_PATH) clean
+	@make -sC $(LIBFT_PATH) clean
 
 fclean: clean
 	@echo "full clean..."
 	@rm -rf $(NAME)
-	@make -C $(LIBFT_PATH) fclean
+	@make -sC $(LIBFT_PATH) fclean
 
 re: fclean all bonus
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 00:51:30 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/12 16:41:45 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/13 13:48:25 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ char *handle_quoted_string(const char *input, int *i, t_shell *shell)
 	quote_char = input[*i];
 	start = *i + 1;
 	len = 0;
-	// For single quotes, keep existing behavior
 	if (quote_char == '\'')
 	{
 		while (input[start + len] && input[start + len] != quote_char)
@@ -114,13 +113,11 @@ char *handle_quoted_string(const char *input, int *i, t_shell *shell)
 		*i += len + 1;
 		return result;
 	}
-	// For double quotes handle variables
 	result = ft_calloc(1, sizeof(char));
 	while (input[start + len] && input[start + len] != quote_char)
 	{
 		if (input[start + len] == '$')
 		{
-			// Add everything before the $ to result
 			if (len > 0)
 			{
 				data = ft_substr(input + start, 0, len);
@@ -129,18 +126,15 @@ char *handle_quoted_string(const char *input, int *i, t_shell *shell)
 				free(data);
 				result = temp;
 			}
-			// Get variable name length
 			int var_len = 1;
 			while (input[start + len + var_len] &&
 					!is_whitespace(input[start + len + var_len]) &&
 					input[start + len + var_len] != quote_char &&
 					input[start + len + var_len] != '$')
 				var_len++;
-			// Get variable name without $
 			data = ft_substr(input + start + len + 1, 0, var_len - 1);
 			var_value = get_env_value(shell->env_list, data);
 			free(data);
-			// Add variable value to result
 			if (var_value)
 			{
 				char *temp = ft_strjoin(result, var_value);
@@ -153,7 +147,6 @@ char *handle_quoted_string(const char *input, int *i, t_shell *shell)
 		else
 			len++;
 	}
-	// Add remaining content
 	if (len > 0)
 	{
 		data = ft_substr(input + start, 0, len);
