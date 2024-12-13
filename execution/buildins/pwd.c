@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:50:52 by stalash           #+#    #+#             */
-/*   Updated: 2024/11/14 02:38:14 by candrese         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:14:02 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-cmd_status	ft_pwd()
+cmd_status	ft_pwd(void)
 {
 	char	*cwd;
 
@@ -20,12 +20,8 @@ cmd_status	ft_pwd()
 	if (cwd)
 	{
 		printf("%s\n", cwd);
-		free(cwd);
-		return (CMD_SUCCESS);
+		return (free(cwd), CMD_SUCCESS);
 	}
 	else
-	{
-		perror("pwd");
-		return (CMD_ERROR);
-	}
+		return (perror("pwd"), CMD_ERROR);
 }
