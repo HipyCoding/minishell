@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:34:11 by candrese          #+#    #+#             */
-/*   Updated: 2024/11/05 15:10:25 by candrese         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:37:18 by christian        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,19 @@ syntax_error_t check_command_syntax(t_ast_node *cmd_node)
 {
 	if (!cmd_node || !cmd_node->data)
 		return ERR_CMD_NOT_FOUND;
-	// Check if the command is valid
 	if (!is_valid_command(cmd_node->data))
 		return ERR_CMD_NOT_FOUND;
 	return SYNTAX_OK;
 }
 
 // Check validity of a redirection node
-syntax_error_t check_redirection_syntax(t_ast_node *redir_node)
+syntax_error_t	check_redirection_syntax(t_ast_node *redir_node)
 {
-	// Check if redirection has a target file
 	if (!redir_node->right || !redir_node->right->data)
-		return ERR_MISSING_REDIR_FILE;
-	// Check if the redirection has a valid command
-	if (!redir_node->left)
-		return ERR_INVALID_REDIR;
-	return SYNTAX_OK;
+		return (ERR_MISSING_REDIR_FILE);
+	if (redir_node->right->type == NODE_REDIR)
+		return (ERR_INVALID_REDIR);
+	return (SYNTAX_OK);
 }
 
 // Main syntax checker function
@@ -55,10 +52,8 @@ syntax_error_t check_syntax(t_ast_node *node)
 		return ERR_CMD_NOT_FOUND;
 	if (node->type == NODE_PIPE)
 	{
-		// Check for empty pipe or consecutive pipes
 		if (!node->left || !node->right)
 			return ERR_EMPTY_PIPE;
-		// Recursively check both sides of the pipe
 		error = check_syntax(node->left);
 		if (error != SYNTAX_OK)
 			return error;
@@ -71,8 +66,9 @@ syntax_error_t check_syntax(t_ast_node *node)
 		error = check_redirection_syntax(node);
 		if (error != SYNTAX_OK)
 			return error;
-		// Check the command part of redirection
-		return check_syntax(node->left);
+		if (node->left && node->left->type == NODE_CMD)
+			error = check_syntax(node->left);
+		return SYNTAX_OK;
 	}
 	else
 		return SYNTAX_OK;
