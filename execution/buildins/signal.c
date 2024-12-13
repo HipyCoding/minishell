@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 19:20:09 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 12:43:28 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/13 19:22:03 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	signal_handler(int signo)
 	}
 }
 
-void	setup_signal_handlers()
+void	setup_signal_handlers(void)
 {
-	signal(SIGINT, signal_handler); // for the "Ctrl-C"
-	signal(SIGQUIT, SIG_IGN);		// for the "Ctrl- \"
-	signal(SIGTSTP, SIG_IGN);		// and this one for the "Ctrl-Z"
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 }

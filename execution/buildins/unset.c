@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:57:55 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/06 18:41:10 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/13 19:22:49 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ bool	remove_env_var(t_env **env_list, const char *key)
 		if (ft_strcmp(current->key, key) == 0)
 		{
 			if (prev)
-				prev->next = current->next; // Bypass the current node
+				prev->next = current->next;
 			else
-				*env_list = current->next; // Update the head of the list if first node
+				*env_list = current->next;
 			free(current->key);
 			free(current->value);
 			free(current);
@@ -38,7 +38,7 @@ bool	remove_env_var(t_env **env_list, const char *key)
 		prev = current;
 		current = current->next;
 	}
-	return (false); // Key not found
+	return (false);
 }
 
 cmd_status	ft_unset(t_ast_node *cmd_node, t_env **env_list)
