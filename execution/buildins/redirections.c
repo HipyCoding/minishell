@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:09:40 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 19:21:44 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 02:32:12 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,22 @@ void	handle_heredoc(char *delimiter)
 	close(pipefd[0]);
 }
 
+static void	apply_redirections(t_ast_node *redir_node, t_ast_node *cmd_node)
+{
+	while (cmd_node)
+	{
+		if (cmd_node->redir_type == 4)
+			handle_heredoc(cmd_node->right->data);
+		cmd_node = cmd_node->left;
+	}
+	if (redir_node->redir_type == 2)
+		redirect_input(redir_node->right->data);
+	else if (redir_node->redir_type == 1)
+		redirect_output(redir_node->right->data, false);
+	else if (redir_node->redir_type == 3)
+		redirect_output(redir_node->right->data, true);
+}
+
 cmd_status	handle_redirection(t_ast_node *redir_node, t_shell *shell)
 {
 	int			st_fd_out;
@@ -79,14 +95,7 @@ cmd_status	handle_redirection(t_ast_node *redir_node, t_shell *shell)
 	st_fd_in = dup(STDIN_FILENO);
 	if (st_fd_out == -1 || st_fd_in == -1)
 		return (perror("backup FDs\n"), CMD_ERROR);
-	if (redir_node->redir_type == 2)
-		redirect_input(redir_node->right->data);
-	else if (redir_node->redir_type == 1)
-		redirect_output(redir_node->right->data, false);
-	else if (redir_node->redir_type == 3)
-		redirect_output(redir_node->right->data, true);
-	else if (redir_node->redir_type == 4)
-		handle_heredoc(redir_node->right->data);
+	apply_redirections(redir_node, redir_node);
 	status = execute_ast(redir_node->left, shell);
 	dup2(st_fd_out, STDOUT_FILENO);
 	dup2(st_fd_in, STDIN_FILENO);
