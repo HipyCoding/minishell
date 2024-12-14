@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 17:46:30 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 03:58:06 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,62 +32,61 @@
 # define BRIGHT_GREEN   "\033[0;92m"
 
 // Status codes for command execution
-typedef enum
+typedef enum e_cmd_status
 {
 	CMD_SUCCESS = 0,
 	CMD_ERROR = 1,
-}		cmd_status;
+}		t_cmd_status;
 
 //  environment struct
 typedef struct s_env
 {
-	char *key;
-	char *value;
-	struct s_env *next;
-}	t_env;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}		t_env;
 
 // shell struct
 typedef struct s_shell
 {
-	t_env *env_list;
-	int exit_status;
-} t_shell;
+	t_env	*env_list;
+	int		exit_status;
+}	t_shell;
 
-typedef enum
+typedef enum e_ast_type
 {
-	NODE_PIPE,		// Pipeline node (connects commands)
-	NODE_CMD,		// Command node (includes command name and args)
-	NODE_REDIR,		// Redirection node
-	NODE_ARG,		// Argument node
-	NODE_WORD,		// Word node (for command names)
-	NODE_ENV,		// Environment variable
-	NODE_QUOTE,		// Quoted string
+	NODE_PIPE,
+	NODE_CMD,
+	NODE_REDIR,
+	NODE_ARG,
+	NODE_WORD,
+	NODE_ENV,
+	NODE_QUOTE,
 	NODE_ERROR,
-} ast_type;
+}		t_ast_type;
 
 // AST node structure
 typedef struct s_ast_node
 {
-	ast_type type;
-	char *data;
-	struct s_ast_node *left;	// Left child
-	struct s_ast_node *right;	// Right child
-	struct s_ast_node *args;	// For command arguments (linked list)
-	struct s_ast_node *next;	// For argument lists
-	int redir_type;				// For redirection nodes (>, <, >>, <<)
-} t_ast_node;
+	t_ast_type			type;
+	char				*data;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+	struct s_ast_node	*args;
+	struct s_ast_node	*next;
+	int					redir_type;
+}		t_ast_node;
 
 // Token structure for lexical analysis
 typedef struct s_token
 {
-	ast_type type;
-	char *data;
-	struct s_token *next;
-} t_token;
+	t_ast_type		type;
+	char			*data;
+	struct s_token	*next;
+}		t_token;
 
 // Struct for error handling within the syntax checks
-typedef enum
-{
+typedef enum e_syntax_error {
 	SYNTAX_OK = 0,
 	ERR_EMPTY_PIPE,
 	ERR_INVALID_REDIR,
@@ -95,35 +94,43 @@ typedef enum
 	ERR_CONSECUTIVE_PIPE,
 	ERR_MISSING_REDIR_FILE,
 	ERR_UNCLOSED_QUOTE
-} 		syntax_error_t;
+}		t_syntax_error;
 
-// lexing
-t_ast_node		*create_ast_node(ast_type type, char *data);
-t_token			*create_token(ast_type type, char *data);
-char			*handle_special_char(const char *input, int *i);
-int				get_word_length(const char *input, int start);
-char			*handle_word(const char *input, int *i);
-char			*extract_token_data(const char *input, int *i);
-ast_type		get_basic_token_type(char first_char);
-ast_type		get_token_type(const char *data, const t_token *prev_token);
-void			add_token(t_token **head, t_token *new_token);
-t_token *lexer(const char *input, t_shell *shell);
+// cleanup
 void			cleanup_tokens(t_token *head);
 void			cleanup_env_list(t_env *env_list);
+void			free_2d_string(char **array);
+void			free_ast(t_ast_node *node);
+
+// parse abstract syntax tree
+t_ast_node		*parse(t_token *tokens, t_ast_node *ast, t_shell *shell, \
+				t_cmd_status *t_status);
+t_ast_node		*parse_pipeline(t_token **tokens);
 t_ast_node		*parse_command(t_token **tokens);
 t_ast_node		*parse_redirection(t_token **tokens);
 t_ast_node		*parse_command_with_redirections(t_token **tokens);
-t_ast_node		*parse_pipeline(t_token **tokens);
-t_ast_node		*parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *status);
-void			print_ast(t_ast_node *node, int depth);
-void free_2d_string(char **array);
-void			free_ast(t_ast_node *node);
-void			free_tokens(t_token *head);
+t_ast_node		*create_ast_node(t_ast_type type, char *data);
+
+// lexing
+char			*handle_quoted_string(const char *input, int *i, \
+									t_shell *shell);
+t_ast_type		get_basic_token_type(char first_char);
+t_ast_type		get_token_type(const char *data, const t_token *prev_token);
+void			add_token(t_token **head, t_token *new_token);
+char			*handle_word(const char *input, int *i);
+char			*extract_token_data(const char *input, int *i);
+t_token			*create_token(t_ast_type type, char *data);
+t_token			*init_new_token(const char *input, int *i, \
+								t_token *prev_token, t_shell *shell);
+char			*extract_token_data(const char *input, int *i);
 char			*extract_env_var_name(const char *input, int *i);
-char *handle_quoted_string(const char *input, int *i, t_shell *shell);
-char *get_env_value(t_env *env_list, const char *key);
-t_token	*init_new_token(const char *input, int *i, t_token *prev_token, t_shell *shell);
-void print_tokens(t_token *head);
+t_token			*lexer(const char *input, t_shell *shell);
+char			*handle_special_char(const char *input, int *i);
+char			*get_env_value(t_env *env_list, const char *key);
+
+// debugging
+void			print_tokens(t_token *head);
+void			print_ast(t_ast_node *node, int depth);
 
 // lexing utils
 bool			has_unclosed_quotes(const char *input);
@@ -131,34 +138,44 @@ bool			is_special_char(char c);
 bool			is_whitespace(char c);
 bool			is_quote(char c);
 bool			skip_whitespace(const char *input, int *i);
+int				get_word_length(const char *s, int st, int l);
+char			*handle_word(const char *input, int *i);
 
 // syntax checks
 bool			is_valid_command(const char *cmd);
-syntax_error_t	check_command_syntax(t_ast_node *cmd_node);
-syntax_error_t	check_redirection_syntax(t_ast_node *redir_node);
-syntax_error_t	check_syntax(t_ast_node *node);
-void			display_syntax_error(syntax_error_t error);
+t_syntax_error	check_command_syntax(t_ast_node *cmd_node);
+t_syntax_error	check_redirection_syntax(t_ast_node *redir_node);
+t_syntax_error	check_syntax(t_ast_node *node, t_syntax_error error);
+void			display_syntax_error(t_syntax_error error);
 
 // env
 t_env			*init_env(char **envp);
-cmd_status		ft_env(t_ast_node *cmd_node, t_env *env_list);
+t_cmd_status		ft_env(t_ast_node *cmd_node, t_env *env_list);
 void			expand_env_vars_in_node(t_ast_node *node, t_shell *shell);
 t_env			*create_env_node(char *key, char *value);
 bool			split_env_str(char *env_str, char **key, char **value);
 void			add_env_node(t_env **env_list, t_env *new_node);
 
 // builtin functions
-cmd_status		ft_echo(t_ast_node *cmd_node);
-cmd_status		ft_cd(t_ast_node *cmd_node);
-cmd_status		ft_exit(t_ast_node *cmd_node, t_shell *shell);
-cmd_status		ft_pwd();
-void			setup_signal_handlers();
-cmd_status		handle_redirection(t_ast_node *redir_node, t_shell *shell);
-cmd_status		execute_pipeline(t_ast_node *node, t_shell *shell);
-cmd_status ft_export(t_ast_node *cmd_node, t_shell *shell);
-cmd_status		ft_unset(t_ast_node *cmd_node, t_env **env_list);
+t_cmd_status		ft_echo(t_ast_node *cmd_node);
+t_cmd_status		ft_cd(t_ast_node *cmd_node);
+t_cmd_status		ft_exit(t_ast_node *cmd_node, t_shell *shell);
+t_cmd_status		ft_pwd(void);
+void			setup_signal_handlers(void);
+t_cmd_status		handle_redirection(t_ast_node *redir_node, t_shell *shell);
+t_cmd_status		execute_pipeline(t_ast_node *node, t_shell *shell);
+t_cmd_status		ft_export(t_ast_node *cmd_node, t_shell *shell);
+t_cmd_status		ft_unset(t_ast_node *cmd_node, t_env **env_list);
 
-cmd_status		execute_ast(t_ast_node *node, t_shell *shell);
-cmd_status		execute_external(t_ast_node *cmd_node, t_shell *shell);
+// Part of export function
+t_env			*find_env_var(t_env *env_list, const char *key);
+int				count_env_nodes(t_env *env_list);
+t_env			**fill_env_array(t_env *env_list, int count);
+void			sort_env_array(t_env **arr, int count);
+void			print_env_array(t_env **arr, int count);
+
+// execute
+t_cmd_status		execute_ast(t_ast_node *node, t_shell *shell);
+t_cmd_status		execute_external(t_ast_node *cmd_node, t_shell *shell);
 
 #endif
