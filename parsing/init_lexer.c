@@ -6,13 +6,13 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 05:02:23 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 23:46:35 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:04:30 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_ast_node	*create_ast_node(ast_type type, char *data)
+t_ast_node	*create_ast_node(t_ast_type type, char *data)
 {
 	t_ast_node	*node;
 
@@ -25,7 +25,7 @@ t_ast_node	*create_ast_node(ast_type type, char *data)
 	return (node);
 }
 
-t_token	*create_token(ast_type type, char *data)
+t_token	*create_token(t_ast_type type, char *data)
 {
 	t_token	*new_token;
 
@@ -49,7 +49,7 @@ char	*extract_token_data(const char *input, int *i)
 static	t_token	*create_new_token(char *token_data, t_token *prev_token)
 {
 	t_token		*new_token;
-	ast_type	token_type;
+	t_ast_type	token_type;
 
 	if (!token_data)
 		return (NULL);

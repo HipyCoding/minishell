@@ -6,13 +6,13 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:50:52 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 19:14:02 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:08:55 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-cmd_status	ft_pwd(void)
+t_cmd_status	ft_pwd(void)
 {
 	char	*cwd;
 

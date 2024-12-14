@@ -6,13 +6,13 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 14:01:49 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/14 03:15:22 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:05:32 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-ast_type	get_basic_token_type(char first_char)
+t_ast_type	get_basic_token_type(char first_char)
 {
 	if (first_char == '|')
 		return (NODE_PIPE);
@@ -27,9 +27,9 @@ ast_type	get_basic_token_type(char first_char)
 }
 
 // get_token_type to maybe change WORD NODE to CMD or ARG
-ast_type	get_token_type(const char *data, const t_token *prev_token)
+t_ast_type	get_token_type(const char *data, const t_token *prev_token)
 {
-	ast_type	basic_type;
+	t_ast_type	basic_type;
 
 	if (data[0] == '$')
 	{

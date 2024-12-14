@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/14 03:07:14 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:03:14 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ t_ast_node	*parse_pipeline(t_token **tokens)
 
 // can add more parsing modules here
 t_ast_node	*parse(t_token *tokens, t_ast_node *ast,
-	t_shell *shell, cmd_status *status)
+	t_shell *shell, t_cmd_status *status)
 {
-	syntax_error_t	error;
+	t_syntax_error	error;
 
 	error = SYNTAX_OK;
 	ast = parse_pipeline (&tokens);

@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:34:11 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/14 03:08:20 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:05:54 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_valid_command(const char *cmd)
 }
 
 // Check validity of a command node and its arguments
-syntax_error_t	check_command_syntax(t_ast_node *cmd_node)
+t_syntax_error	check_command_syntax(t_ast_node *cmd_node)
 {
 	if (!cmd_node || !cmd_node->data)
 		return (ERR_CMD_NOT_FOUND);
@@ -32,7 +32,7 @@ syntax_error_t	check_command_syntax(t_ast_node *cmd_node)
 }
 
 // Check validity of a redirection node
-syntax_error_t	check_redirection_syntax(t_ast_node *redir_node)
+t_syntax_error	check_redirection_syntax(t_ast_node *redir_node)
 {
 	if (!redir_node->right || !redir_node->right->data)
 		return (ERR_MISSING_REDIR_FILE);
@@ -41,7 +41,7 @@ syntax_error_t	check_redirection_syntax(t_ast_node *redir_node)
 	return (SYNTAX_OK);
 }
 
-syntax_error_t	check_syntax(t_ast_node *node, syntax_error_t error)
+t_syntax_error	check_syntax(t_ast_node *node,t_syntax_error error)
 {
 	if (!node)
 		return (ERR_CMD_NOT_FOUND);
@@ -70,7 +70,7 @@ syntax_error_t	check_syntax(t_ast_node *node, syntax_error_t error)
 }
 
 
-void	display_syntax_error(syntax_error_t error)
+void	display_syntax_error(t_syntax_error error)
 {
 	if (error == SYNTAX_OK)
 		return ;

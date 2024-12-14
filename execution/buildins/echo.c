@@ -6,13 +6,13 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:13:00 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 14:26:09 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:07:19 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-cmd_status	handle_flags_and_get_args(t_ast_node **arg, bool *print_newline)
+t_cmd_status	handle_flags_and_get_args(t_ast_node **arg, bool *print_newline)
 {
 	char	*ptr;
 
@@ -35,7 +35,7 @@ cmd_status	handle_flags_and_get_args(t_ast_node **arg, bool *print_newline)
 	return (CMD_SUCCESS);
 }
 
-cmd_status	handle_and_print_args(t_ast_node *arg, bool print_newline)
+t_cmd_status	handle_and_print_args(t_ast_node *arg, bool print_newline)
 {
 	while (arg)
 	{
@@ -57,7 +57,7 @@ cmd_status	handle_and_print_args(t_ast_node *arg, bool print_newline)
 	return (CMD_SUCCESS);
 }
 
-cmd_status	ft_echo(t_ast_node *cmd_node)
+t_cmd_status	ft_echo(t_ast_node *cmd_node)
 {
 	t_ast_node	*arg;
 	bool		print_newline;

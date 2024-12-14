@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:02:07 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 19:11:36 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:08:47 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	create_pipe(int pipefd[2])
 int	fork_left_process(int pipefd[2], t_ast_node *node, t_shell *shell)
 {
 	pid_t		pid;
-	cmd_status	ret;
+	t_cmd_status	ret;
 
 	pid = fork();
 	if (pid == -1)
@@ -47,7 +47,7 @@ int	fork_left_process(int pipefd[2], t_ast_node *node, t_shell *shell)
 int	fork_right_process(int pipefd[2], t_ast_node *node, t_shell *shell)
 {
 	pid_t		pid;
-	cmd_status	ret;
+	t_cmd_status	ret;
 
 	pid = fork();
 	if (pid == -1)
@@ -69,7 +69,7 @@ int	fork_right_process(int pipefd[2], t_ast_node *node, t_shell *shell)
 	return (pid);
 }
 
-cmd_status	wait_for_children(pid_t pid1, pid_t pid2)
+t_cmd_status	wait_for_children(pid_t pid1, pid_t pid2)
 {
 	int	status1;
 	int	status2;
@@ -83,7 +83,7 @@ cmd_status	wait_for_children(pid_t pid1, pid_t pid2)
 	return (CMD_SUCCESS);
 }
 
-cmd_status	execute_pipeline(t_ast_node *node, t_shell *shell)
+t_cmd_status	execute_pipeline(t_ast_node *node, t_shell *shell)
 {
 	int		pipefd[2];
 	pid_t	pid1;

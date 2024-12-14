@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:01:03 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 18:47:25 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:08:06 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	cleanup_resources(t_shell *shell, t_ast_node *cmd_node)
 	free_ast(cmd_node);
 }
 
-cmd_status	ft_exit(t_ast_node *cmd_node, t_shell *shell)
+t_cmd_status	ft_exit(t_ast_node *cmd_node, t_shell *shell)
 {
 	int			exit_status;
 	t_ast_node	*arg_node;

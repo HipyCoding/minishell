@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:09:40 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/14 02:32:12 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:06:44 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ static void	apply_redirections(t_ast_node *redir_node, t_ast_node *cmd_node)
 		redirect_output(redir_node->right->data, true);
 }
 
-cmd_status	handle_redirection(t_ast_node *redir_node, t_shell *shell)
+t_cmd_status	handle_redirection(t_ast_node *redir_node, t_shell *shell)
 {
-	int			st_fd_out;
-	int			st_fd_in;
-	cmd_status	status;
+	int				st_fd_out;
+	int				st_fd_in;
+	t_cmd_status	status;
 
 	st_fd_out = dup(STDOUT_FILENO);
 	st_fd_in = dup(STDIN_FILENO);

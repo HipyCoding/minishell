@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:57:55 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 19:22:49 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:09:11 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	remove_env_var(t_env **env_list, const char *key)
 	return (false);
 }
 
-cmd_status	ft_unset(t_ast_node *cmd_node, t_env **env_list)
+t_cmd_status	ft_unset(t_ast_node *cmd_node, t_env **env_list)
 {
 	t_ast_node	*arg;
 

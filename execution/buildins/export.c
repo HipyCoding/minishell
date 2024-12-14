@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 12:53:46 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 19:06:30 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:08:16 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	process_export_arg(char *arg, t_ast_node *current, t_shell *shell)
 	return (handle_key_only(arg, &shell->env_list));
 }
 
-cmd_status	ft_export(t_ast_node *cmd_node, t_shell *shell)
+t_cmd_status	ft_export(t_ast_node *cmd_node, t_shell *shell)
 {
 	t_ast_node	*arg;
 

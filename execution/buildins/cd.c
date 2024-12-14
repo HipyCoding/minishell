@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:49:59 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 13:51:04 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:09:39 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_and_update_prev_dir(const char *new_dir)
 	return (prev_dir);
 }
 
-cmd_status	validate_and_get_path(t_ast_node *arg, char **path)
+t_cmd_status	validate_and_get_path(t_ast_node *arg, char **path)
 {
 	if (!arg)
 	{
@@ -54,7 +54,7 @@ cmd_status	validate_and_get_path(t_ast_node *arg, char **path)
 	return (CMD_SUCCESS);
 }
 
-cmd_status	ft_cd(t_ast_node *cmd_node)
+t_cmd_status	ft_cd(t_ast_node *cmd_node)
 {
 	t_ast_node	*arg;
 	char		*path;

@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:17:29 by christian         #+#    #+#             */
-/*   Updated: 2024/12/13 22:07:32 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:01:07 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,11 @@ static void	prepare_and_execute_command(t_ast_node *cmd_node, t_shell *shell)
 	exit(CMD_ERROR);
 }
 
-cmd_status	execute_external(t_ast_node *cmd_node, t_shell *shell)
+t_cmd_status	execute_external(t_ast_node *cmd_node, t_shell *shell)
 {
-	pid_t		pid;
-	int			status;
-	cmd_status	ret;
+	pid_t			pid;
+	int				status;
+	t_cmd_status	ret;
 
 	pid = fork();
 	if (pid == -1)

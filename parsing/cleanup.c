@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 04:56:02 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 22:21:02 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 03:37:30 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,4 @@ void	free_ast(t_ast_node *node)
 	}
 	free(node->data);
 	free(node);
-}
-
-void	free_tokens(t_token *head)
-{
-	t_token	*current;
-	t_token	*next;
-
-	current = head;
-	while (current)
-	{
-		next = current->next;
-		free(current->data);
-		free(current);
-		current = next;
-	}
 }

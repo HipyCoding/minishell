@@ -6,13 +6,13 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:12:12 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 19:35:49 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:00:23 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-cmd_status	execute_builtin(t_ast_node *cmd_node, t_shell *shell)
+t_cmd_status	execute_builtin(t_ast_node *cmd_node, t_shell *shell)
 {
 	if (ft_strncmp(cmd_node->data, "echo", 5) == 0)
 		return (ft_echo(cmd_node));
@@ -47,7 +47,7 @@ bool	is_builtin(char *cmd)
 	return (false);
 }
 
-cmd_status	execute_cmd_node(t_ast_node *node, t_shell *shell)
+t_cmd_status	execute_cmd_node(t_ast_node *node, t_shell *shell)
 {
 	if (is_builtin(node->data))
 		return (execute_builtin(node, shell));
@@ -56,9 +56,9 @@ cmd_status	execute_cmd_node(t_ast_node *node, t_shell *shell)
 	return (printf("Command not found: %s\n", node->data), CMD_ERROR);
 }
 
-cmd_status	execute_pipe_node(t_ast_node *node, t_shell *shell)
+t_cmd_status	execute_pipe_node(t_ast_node *node, t_shell *shell)
 {
-	cmd_status	status;
+	t_cmd_status	status;
 
 	if (node->type == NODE_PIPE)
 		return (execute_pipeline(node, shell));
@@ -68,9 +68,9 @@ cmd_status	execute_pipe_node(t_ast_node *node, t_shell *shell)
 	return (status);
 }
 
-cmd_status	execute_ast(t_ast_node *node, t_shell *shell)
+t_cmd_status	execute_ast(t_ast_node *node, t_shell *shell)
 {
-	cmd_status	status;
+	t_cmd_status	status;
 
 	status = CMD_ERROR;
 	if (!node)

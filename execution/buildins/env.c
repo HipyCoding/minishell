@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:35:34 by stalash           #+#    #+#             */
-/*   Updated: 2024/12/13 18:44:48 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:07:44 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	print_env_list(t_env *env_list)
 		printf("%s=%s\n", env_list->key, env_list->value);
 }
 
-cmd_status	ft_env(t_ast_node *cmd_node, t_env *env_list)
+t_cmd_status	ft_env(t_ast_node *cmd_node, t_env *env_list)
 {
 	if (cmd_node->args)
 		return (printf("env: too many arguments\n"), CMD_ERROR);
