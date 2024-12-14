@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: christian <christian@student.42.fr>        +#+  +:+       +#+         #
+#    By: stalash <stalash@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/21 15:43:25 by christian         #+#    #+#              #
-#    Updated: 2024/12/13 13:30:58 by christian        ###   ########.fr        #
+#    Updated: 2024/12/14 01:33:49 by stalash          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,12 @@ SRCS	:= main.c \
 	parsing/tokenize.c \
 	parsing/parse_utils_boolean.c \
 	parsing/parse_utils.c \
+	parsing/parse_quotations.c \
+	parsing/parse_redirection.c \
 	parsing/parse.c \
 	parsing/cleanup.c \
 	parsing/init_lexer.c \
+	parsing/lexer.c \
 	parsing/syntax_check.c \
 	parsing/expansion.c \
 	execution/execute.c \
@@ -39,7 +42,9 @@ SRCS	:= main.c \
 	execution/buildins/signal.c \
 	execution/buildins/pipe.c \
 	execution/buildins/export.c \
-	execution/buildins/unset.c
+	execution/buildins/unset.c \
+	execution/buildins/part_of_env.c \
+	execution/buildins/part_of_export.c
 
 OBJS	:= $(SRCS:%.c=bin/%.o)
 
