@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 02:46:55 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 17:13:37 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 03:07:14 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ t_ast_node	*parse_command(t_token **tokens)
 		return (NULL);
 	current = current->next;
 	last_arg = NULL;
-	while (current && (current->type == NODE_ARG || current->type == NODE_QUOTE))
+	while (current && (current->type == NODE_ARG
+			|| current->type == NODE_QUOTE))
 	{
 		if (!handle_new_argument(cmd_node, &last_arg, current->data))
 			return (NULL);
@@ -61,87 +62,6 @@ t_ast_node	*parse_command(t_token **tokens)
 	}
 	*tokens = current;
 	return (cmd_node);
-}
-
-t_ast_node *parse_redirection(t_token **tokens)
-{
-	t_ast_node *redir_node;
-	t_token *current;
-
-	current = *tokens;
-	if (!current || !current->next)
-		return (NULL);
-	redir_node = create_ast_node(NODE_REDIR, NULL);
-	if (!redir_node)
-		return (NULL);
-	if (ft_strncmp(current->data, "<<", 3) == 0)
-		redir_node->redir_type = 4;
-	else if (ft_strncmp(current->data, "<", 3) == 0)
-		redir_node->redir_type = 2;
-	else if (ft_strncmp(current->data, ">>", 3) == 0)
-		redir_node->redir_type = 3;
-	else if (ft_strncmp(current->data, ">", 3) == 0)
-		redir_node->redir_type = 1;
-	current = current->next;
-	redir_node->right = create_ast_node(NODE_WORD, ft_strdup(current->data));
-	*tokens = current->next;
-	return (redir_node);
-}
-
-// Parse a command with its redirections
-static t_ast_node	*handle_initial_redirection(t_token **tokens)
-{
-	t_ast_node	*redir_node;
-	t_ast_node	*cmd_node;
-	t_token		*current;
-
-	current = *tokens;
-	redir_node = parse_redirection(&current);
-	if (!redir_node)
-		return (NULL);
-	*tokens = current;
-	if (*tokens && (*tokens)->type != NODE_REDIR)
-	{
-		cmd_node = parse_command(tokens);
-		if (cmd_node)
-			redir_node->left = cmd_node;
-	}
-	return (redir_node);
-}
-
-static t_ast_node	*handle_command_redirections(t_token **tokens)
-{
-	t_ast_node	*cmd_node;
-	t_ast_node	*redir_node;
-	t_token		*current;
-
-	cmd_node = parse_command(tokens);
-	if (!cmd_node)
-		return (NULL);
-	current = *tokens;
-	while (current && current->type == NODE_REDIR)
-	{
-		redir_node = parse_redirection(&current);
-		if (!redir_node)
-		{
-			free_ast(cmd_node);
-			return (NULL);
-		}
-		redir_node->left = cmd_node;
-		cmd_node = redir_node;
-		*tokens = current;
-	}
-	return (cmd_node);
-}
-
-t_ast_node	*parse_command_with_redirections(t_token **tokens)
-{
-	t_token	*current;
-
-	current = *tokens;
-	if (current && current->type == NODE_REDIR)
-		return (handle_initial_redirection(tokens));
-	return (handle_command_redirections(tokens));
 }
 
 static t_ast_node	*create_pipe_node(t_token **tokens, t_ast_node *left_cmd)
@@ -183,28 +103,29 @@ t_ast_node	*parse_pipeline(t_token **tokens)
 }
 
 // can add more parsing modules here
-t_ast_node *parse(t_token *tokens, t_ast_node *ast,t_shell *shell, cmd_status *status)
+t_ast_node	*parse(t_token *tokens, t_ast_node *ast,
+	t_shell *shell, cmd_status *status)
 {
 	syntax_error_t	error;
 
+	error = SYNTAX_OK;
 	ast = parse_pipeline (&tokens);
 	if (!ast)
 	{
 		cleanup_tokens(tokens);
 		*status = CMD_ERROR;
-		return NULL;
+		return (NULL);
 	}
-	error = check_syntax (ast);
-	// print_ast(ast, 0);
+	error = check_syntax (ast, error);
 	if (error != SYNTAX_OK)
 	{
 		display_syntax_error (error);
 		cleanup_tokens(tokens);
 		free_ast(ast);
 		*status = CMD_ERROR;
-		return NULL;
+		return (NULL);
 	}
 	expand_env_vars_in_node(ast, shell);
 	cleanup_tokens(tokens);
-	return ast;
+	return (ast);
 }

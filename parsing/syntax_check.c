@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christian <christian@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:34:11 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/13 13:05:35 by christian        ###   ########.fr       */
+/*   Updated: 2024/12/14 03:08:20 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,21 @@
 
 
 // helper function to check if a command exists
-bool is_valid_command(const char *cmd) 
+bool	is_valid_command(const char *cmd)
 {
-	// skip if it starts with a hyphen (like -l)
 	if (cmd[0] == '-')
-		return false;
-	// TODO: Check if builtin command, Check if executable in PATH, if it is a valid relative/absolute path
-	return true;
+		return (false);
+	return (true);
 }
 
 // Check validity of a command node and its arguments
-syntax_error_t check_command_syntax(t_ast_node *cmd_node)
+syntax_error_t	check_command_syntax(t_ast_node *cmd_node)
 {
 	if (!cmd_node || !cmd_node->data)
-		return ERR_CMD_NOT_FOUND;
+		return (ERR_CMD_NOT_FOUND);
 	if (!is_valid_command(cmd_node->data))
-		return ERR_CMD_NOT_FOUND;
-	return SYNTAX_OK;
+		return (ERR_CMD_NOT_FOUND);
+	return (SYNTAX_OK);
 }
 
 // Check validity of a redirection node
@@ -43,42 +41,39 @@ syntax_error_t	check_redirection_syntax(t_ast_node *redir_node)
 	return (SYNTAX_OK);
 }
 
-// Main syntax checker function
-syntax_error_t check_syntax(t_ast_node *node)
+syntax_error_t	check_syntax(t_ast_node *node, syntax_error_t error)
 {
-	syntax_error_t error;
-
 	if (!node)
-		return ERR_CMD_NOT_FOUND;
+		return (ERR_CMD_NOT_FOUND);
 	if (node->type == NODE_PIPE)
 	{
 		if (!node->left || !node->right)
-			return ERR_EMPTY_PIPE;
-		error = check_syntax(node->left);
+			return (ERR_EMPTY_PIPE);
+		error = check_syntax(node->left, error);
 		if (error != SYNTAX_OK)
-			return error;
-		return check_syntax(node->right);
+			return (error);
+		return (check_syntax(node->right, error));
 	}
 	else if (node->type == NODE_CMD)
-		return check_command_syntax(node);
+		return (check_command_syntax(node));
 	else if (node->type == NODE_REDIR)
 	{
 		error = check_redirection_syntax(node);
 		if (error != SYNTAX_OK)
-			return error;
+			return (error);
 		if (node->left && node->left->type == NODE_CMD)
-			error = check_syntax(node->left);
-		return SYNTAX_OK;
+			error = check_syntax(node->left, error);
+		return (SYNTAX_OK);
 	}
 	else
-		return SYNTAX_OK;
+		return (SYNTAX_OK);
 }
 
-// Function to display the right error message
-void display_syntax_error(syntax_error_t error)
+
+void	display_syntax_error(syntax_error_t error)
 {
 	if (error == SYNTAX_OK)
-		return;
+		return ;
 	else if (error == ERR_EMPTY_PIPE)
 		ft_putstr_fd("syntax error: empty pipe\n", STDERR_FILENO);
 	else if (error == ERR_INVALID_REDIR)
