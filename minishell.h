@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 02:50:52 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/14 03:58:06 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:18:41 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,22 +150,22 @@ void			display_syntax_error(t_syntax_error error);
 
 // env
 t_env			*init_env(char **envp);
-t_cmd_status		ft_env(t_ast_node *cmd_node, t_env *env_list);
+t_cmd_status	ft_env(t_ast_node *cmd_node, t_env *env_list);
 void			expand_env_vars_in_node(t_ast_node *node, t_shell *shell);
 t_env			*create_env_node(char *key, char *value);
 bool			split_env_str(char *env_str, char **key, char **value);
 void			add_env_node(t_env **env_list, t_env *new_node);
 
 // builtin functions
-t_cmd_status		ft_echo(t_ast_node *cmd_node);
-t_cmd_status		ft_cd(t_ast_node *cmd_node);
-t_cmd_status		ft_exit(t_ast_node *cmd_node, t_shell *shell);
-t_cmd_status		ft_pwd(void);
+t_cmd_status	ft_echo(t_ast_node *cmd_node);
+t_cmd_status	ft_cd(t_ast_node *cmd_node);
+t_cmd_status	ft_exit(t_ast_node *cmd_node, t_shell *shell);
+t_cmd_status	ft_pwd(void);
 void			setup_signal_handlers(void);
-t_cmd_status		handle_redirection(t_ast_node *redir_node, t_shell *shell);
-t_cmd_status		execute_pipeline(t_ast_node *node, t_shell *shell);
-t_cmd_status		ft_export(t_ast_node *cmd_node, t_shell *shell);
-t_cmd_status		ft_unset(t_ast_node *cmd_node, t_env **env_list);
+t_cmd_status	handle_redirection(t_ast_node *redir_node, t_shell *shell);
+t_cmd_status	execute_pipeline(t_ast_node *node, t_shell *shell);
+t_cmd_status	ft_export(t_ast_node *cmd_node, t_shell *shell);
+t_cmd_status	ft_unset(t_ast_node *cmd_node, t_env **env_list);
 
 // Part of export function
 t_env			*find_env_var(t_env *env_list, const char *key);
@@ -175,7 +175,7 @@ void			sort_env_array(t_env **arr, int count);
 void			print_env_array(t_env **arr, int count);
 
 // execute
-t_cmd_status		execute_ast(t_ast_node *node, t_shell *shell);
-t_cmd_status		execute_external(t_ast_node *cmd_node, t_shell *shell);
+t_cmd_status	execute_ast(t_ast_node *node, t_shell *shell);
+t_cmd_status	execute_external(t_ast_node *cmd_node, t_shell *shell);
 
 #endif

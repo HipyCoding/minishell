@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 00:51:30 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/14 03:11:52 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:16:01 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	get_word_length(const char *s, int st, int l)
 	}
 	return (l);
 }
-
 
 // Helper function for special character tokens
 char	*handle_special_char(const char *input, int *i)

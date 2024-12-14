@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 14:01:49 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/14 04:05:32 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:17:10 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	add_token(t_token **head, t_token *new_token)
 // 	printf("\n");
 // }
 
-
 // //for Debug/Print
 
 // void print_ast(t_ast_node *node, int depth)
@@ -127,4 +126,3 @@ void	add_token(t_token **head, t_token *new_token)
 // 	print_ast(node->left, depth + 1);
 // 	print_ast(node->right, depth + 1);
 // }
-

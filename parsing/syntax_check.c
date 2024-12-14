@@ -6,12 +6,11 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:34:11 by candrese          #+#    #+#             */
-/*   Updated: 2024/12/14 04:05:54 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:16:39 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 // helper function to check if a command exists
 bool	is_valid_command(const char *cmd)
@@ -41,7 +40,7 @@ t_syntax_error	check_redirection_syntax(t_ast_node *redir_node)
 	return (SYNTAX_OK);
 }
 
-t_syntax_error	check_syntax(t_ast_node *node,t_syntax_error error)
+t_syntax_error	check_syntax(t_ast_node *node, t_syntax_error error)
 {
 	if (!node)
 		return (ERR_CMD_NOT_FOUND);
@@ -68,7 +67,6 @@ t_syntax_error	check_syntax(t_ast_node *node,t_syntax_error error)
 	else
 		return (SYNTAX_OK);
 }
-
 
 void	display_syntax_error(t_syntax_error error)
 {

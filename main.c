@@ -6,12 +6,11 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:08:23 by christian         #+#    #+#             */
-/*   Updated: 2024/12/14 04:00:02 by stalash          ###   ########.fr       */
+/*   Updated: 2024/12/14 04:18:03 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static void	initialize_shell(t_shell *shell, char **envp)
 {
@@ -21,9 +20,9 @@ static void	initialize_shell(t_shell *shell, char **envp)
 
 static int	process_input(t_shell *shell)
 {
-	char		*input;
-	t_ast_node	*ast;
-	t_token		*tokens;
+	char			*input;
+	t_ast_node		*ast;
+	t_token			*tokens;
 	t_cmd_status	status;
 
 	setup_signal_handlers();
@@ -36,7 +35,6 @@ static int	process_input(t_shell *shell)
 	tokens = lexer(input, shell);
 	if (!tokens)
 		cleanup_tokens(tokens);
-
 	ast = parse(tokens, NULL, shell, &status);
 	if (ast)
 	{
